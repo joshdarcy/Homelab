@@ -1,14 +1,14 @@
-# On Factory Reset, the LAN port is eth0. I'll be configuring my ER-4 with LAN on eth0, and WAN on eth2. I'll be using 10.0.1.0/24 for my LAN network, and WAN on DHCP from my ISP.
+#On Factory Reset, the LAN port is eth0. I'll be configuring my ER-4 with LAN on eth0, and WAN on eth2. I'll be using 10.0.1.0/24 for my LAN network, and WAN on DHCP from my ISP.
 #Configure LAN interface
 delete interfaces ethernet eth0 address 192.168.1.1/24
 set interfaces ethernet eth0 address 10.0.1.1/24
 set interfaces ethernet eth0 description LAN
 
-# Configure WAN interface
+#Configure WAN interface
 set interfaces ethernet eth2 address dhcp
 set interfaces ethernet eth2 description WAN
 
-# Confirm the ER-4 is accessible on 10.0.1.1
+#Confirm the ER-4 is accessible on 10.0.1.1
 commit ; save
 
 #Configure system settings and user settings
@@ -26,7 +26,7 @@ set system traffic-analysis export enable
 
 commit ; save
 
-# Now, you should be able to reach the internet from the router, but our client machines still can't, so we need to configure NAT on LAN/eth0.
+#Now, you should be able to reach the internet from the router, but our client machines still can't, so we need to configure NAT on LAN/eth0.
 set service nat rule 5000 description 'masquerade for WAN1'
 set service nat rule 5000 log disable
 set service nat rule 5000 outbound-interface eth2
@@ -38,7 +38,7 @@ set port-forward hairpin-nat enable
 set port-forward lan-interface eth0
 set port-forward wan-interface eth2
 
-# Now, my clients will be able to hit the internet via ping, but they won't be able to resolve hostnames. Time to finalise DHCP and DNS.
+#Now, my clients will be able to hit the internet via ping, but they won't be able to resolve hostnames. Time to finalise DHCP and DNS.
 #DHCP Configuration
 set service dhcp-server disabled false
 set service dhcp-server hostfile-update disable
@@ -156,3 +156,29 @@ set interfaces ethernet eth2 firewall local name WAN_LOCAL
 
 commit ; save
 
+#My home network is not on a static IP, so for my L2TP VPN I update it via Dynamic DDNS through NOIP
+set service dns dynamic interface eth2 service NOIP host-name <ddnsaddress>
+set service dns dynamic interface eth2 service NOIP login <username>
+set service dns dynamic interface eth2 service NOIP password <password>
+
+#Configure Pre-Shared Key
+set vpn l2tp remote-access ipsec-settings authentication mode pre-shared-secret
+set vpn l2tp remote-access ipsec-settings authentication pre-shared-secret <pre-shared-key>
+
+#Configure Authentication Settings
+set vpn l2tp remote-access authentication mode local
+set vpn l2tp remote-access authentication local-users username <username> password <password>
+
+#Configure IP Address Pool
+set vpn l2tp remote-access client-ip-pool start 10.0.1.230
+set vpn l2tp remote-access client-ip-pool stop 10.0.1.239
+
+#Configure DNS Servers
+set vpn l2tp remote-access dns-servers server-1 8.8.8.8
+set vpn l2tp remote-access dns-servers server-2 8.8.4.4
+
+#Define WAN interface
+set vpn l2tp remote-access dhcp-interface eth2
+set vpn ipsec ipsec-interfaces interface eth2
+
+commit ; save
