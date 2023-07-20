@@ -1,0 +1,12 @@
+# On Factory Reset, the LAN port is eth0. I'll be configuring my ER-4 with LAN on eth0, and WAN on eth2. I'll be using 10.0.1.0/24 for my LAN network, and WAN on DHCP from my ISP.
+#Configure LAN interface
+delete interfaces ethernet eth0 address 192.168.1.1/24
+set interfaces ethernet eth0 address 10.0.1.1/24
+set interfaces ethernet eth0 description LAN
+
+# Configure WAN interface
+set interfaces ethernet eth2 address dhcp
+set interfaces ethernet eth2 description WAN
+
+# Confirm the ER-4 is accessible on 10.0.1.1commit
+save
