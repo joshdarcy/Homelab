@@ -62,3 +62,97 @@ set service dns forwarding options localise-queries
 set service dns forwarding options strict-order
 
 commit ; save
+
+#Base Firewall Settings
+set firewall all-ping enable
+set firewall broadcast-ping disable
+set firewall ip-src-route disable
+set firewall log-martians enable
+set firewall receive-redirects disable
+set firewall send-redirects enable
+set firewall source-validation disable
+set firewall syn-cookies enable
+
+#Configure IPv6 Firewall settings
+set firewall ipv6-name WANv6_IN default-action drop
+set firewall ipv6-name WANv6_IN description 'WAN inbound traffic forwarded to LAN'
+set firewall ipv6-name WANv6_IN enable-default-log
+set firewall ipv6-name WANv6_IN rule 10 action accept
+set firewall ipv6-name WANv6_IN rule 10 description 'Allow established/related sessions'
+set firewall ipv6-name WANv6_IN rule 10 state established enable
+set firewall ipv6-name WANv6_IN rule 10 state related enable
+set firewall ipv6-name WANv6_IN rule 20 action drop
+set firewall ipv6-name WANv6_IN rule 20 description 'Drop invalid state'
+set firewall ipv6-name WANv6_IN rule 20 state invalid enable
+set firewall ipv6-name WANv6_LOCAL default-action drop
+set firewall ipv6-name WANv6_LOCAL description 'WAN inbound traffic to the router'
+set firewall ipv6-name WANv6_LOCAL enable-default-log
+set firewall ipv6-name WANv6_LOCAL rule 10 action accept
+set firewall ipv6-name WANv6_LOCAL rule 10 description 'Allow established/related sessions'
+set firewall ipv6-name WANv6_LOCAL rule 10 state established enable
+set firewall ipv6-name WANv6_LOCAL rule 10 state related enable
+set firewall ipv6-name WANv6_LOCAL rule 20 action drop
+set firewall ipv6-name WANv6_LOCAL rule 20 description 'Drop invalid state'
+set firewall ipv6-name WANv6_LOCAL rule 20 state invalid enable
+set firewall ipv6-name WANv6_LOCAL rule 30 action accept
+set firewall ipv6-name WANv6_LOCAL rule 30 description 'Allow IPv6 icmp'
+set firewall ipv6-name WANv6_LOCAL rule 30 protocol ipv6-icmp
+set firewall ipv6-name WANv6_LOCAL rule 40 action accept
+set firewall ipv6-name WANv6_LOCAL rule 40 description 'allow dhcpv6'
+set firewall ipv6-name WANv6_LOCAL rule 40 destination port 546
+set firewall ipv6-name WANv6_LOCAL rule 40 protocol udp
+set firewall ipv6-name WANv6_LOCAL rule 40 source port 547
+set firewall ipv6-receive-redirects disable
+set firewall ipv6-src-route disable
+
+#Configure IPv4 Firewall Settings
+set firewall name WAN_IN default-action drop
+set firewall name WAN_IN description 'WAN to internal'
+set firewall name WAN_IN rule 10 action accept
+set firewall name WAN_IN rule 10 description 'Allow established/related'
+set firewall name WAN_IN rule 10 state established enable
+set firewall name WAN_IN rule 10 state related enable
+set firewall name WAN_IN rule 20 action drop
+set firewall name WAN_IN rule 20 description 'Drop invalid state'
+set firewall name WAN_IN rule 20 state invalid enable
+set firewall name WAN_LOCAL default-action drop
+set firewall name WAN_LOCAL description 'WAN to router'
+set firewall name WAN_LOCAL rule 10 action accept
+set firewall name WAN_LOCAL rule 10 description 'Allow remote admin'
+set firewall name WAN_LOCAL rule 10 log disable
+set firewall name WAN_LOCAL rule 10 protocol all
+set firewall name WAN_LOCAL rule 10 source group address-group remote_admin
+set firewall name WAN_LOCAL rule 20 action accept
+set firewall name WAN_LOCAL rule 20 description 'Allow established/related'
+set firewall name WAN_LOCAL rule 20 state established enable
+set firewall name WAN_LOCAL rule 20 state related enable
+set firewall name WAN_LOCAL rule 30 action accept
+set firewall name WAN_LOCAL rule 30 description ike
+set firewall name WAN_LOCAL rule 30 destination port 500
+set firewall name WAN_LOCAL rule 30 log disable
+set firewall name WAN_LOCAL rule 30 protocol udp
+set firewall name WAN_LOCAL rule 40 action accept
+set firewall name WAN_LOCAL rule 40 description esp
+set firewall name WAN_LOCAL rule 40 log disable
+set firewall name WAN_LOCAL rule 40 protocol esp
+set firewall name WAN_LOCAL rule 50 action accept
+set firewall name WAN_LOCAL rule 50 description nat-t
+set firewall name WAN_LOCAL rule 50 destination port 4500
+set firewall name WAN_LOCAL rule 50 log disable
+set firewall name WAN_LOCAL rule 50 protocol udp
+set firewall name WAN_LOCAL rule 60 action accept
+set firewall name WAN_LOCAL rule 60 description l2tp
+set firewall name WAN_LOCAL rule 60 destination port 1701
+set firewall name WAN_LOCAL rule 60 ipsec match-ipsec
+set firewall name WAN_LOCAL rule 60 log disable
+set firewall name WAN_LOCAL rule 60 protocol udp
+set firewall name WAN_LOCAL rule 90 action drop
+set firewall name WAN_LOCAL rule 90 description 'Drop invalid state'
+set firewall name WAN_LOCAL rule 90 state invalid enable
+
+#Assign rules to eth2
+set interfaces ethernet eth2 firewall in name WAN_IN
+set interfaces ethernet eth2 firewall local name WAN_LOCAL
+
+commit ; save
+
