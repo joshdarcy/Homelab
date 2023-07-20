@@ -8,5 +8,21 @@ set interfaces ethernet eth0 description LAN
 set interfaces ethernet eth2 address dhcp
 set interfaces ethernet eth2 description WAN
 
-# Confirm the ER-4 is accessible on 10.0.1.1commit
-save
+# Confirm the ER-4 is accessible on 10.0.1.1
+commit ; save
+
+#Configure system settings and user settings
+set service ubnt-discover disable
+set service unms disable
+set system host-name <myroutername>
+set system login user <username> authentication plaintext-password <password>
+set system login user <username> level admin
+delete system login user ubnt
+
+set system name-server 8.8.8.8
+set system name-server 4.2.2.1
+set system traffic-analysis dpi enable
+set system traffic-analysis export enable
+
+commit ; save
+
