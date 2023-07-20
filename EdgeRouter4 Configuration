@@ -26,6 +26,7 @@ set system name-server 8.8.8.8
 set system name-server 4.2.2.1
 set system traffic-analysis dpi enable
 set system traffic-analysis export enable
+
 commit ; save
 
 # Now, you should be able to reach the internet from the router, but our client machines still can't, so we need to configure NAT on LAN/eth0.
@@ -63,6 +64,7 @@ set service dns forwarding options expand-hosts
 set service dns forwarding options bogus-priv
 set service dns forwarding options localise-queries
 set service dns forwarding options strict-order
+
 commit ; save
 
 # Now, it's time for the beefy repetitive part. Configuring the firewall.
