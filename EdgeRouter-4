@@ -26,3 +26,39 @@ set system traffic-analysis export enable
 
 commit ; save
 
+# Now, you should be able to reach the internet from the router, but our client machines still can't, so we need to configure NAT on LAN/eth0.
+set service nat rule 5000 description 'masquerade for WAN1'
+set service nat rule 5000 log disable
+set service nat rule 5000 outbound-interface eth2
+set service nat rule 5000 protocol all
+set service nat rule 5000 type masquerade
+
+set port-forward auto-firewall enable
+set port-forward hairpin-nat enable
+set port-forward lan-interface eth0
+set port-forward wan-interface eth2
+
+# Now, my clients will be able to hit the internet via ping, but they won't be able to resolve hostnames. Time to finalise DHCP and DNS.
+#DHCP Configuration
+set service dhcp-server disabled false
+set service dhcp-server hostfile-update disable
+set service dhcp-server shared-network-name LAN1 authoritative enable
+set service dhcp-server shared-network-name LAN1 subnet 10.0.1.0/24 default-router 10.0.1.1
+set service dhcp-server shared-network-name LAN1 subnet 10.0.1.0/24 dns-server 10.0.1.1
+set service dhcp-server shared-network-name LAN1 subnet 10.0.1.0/24 lease 86400
+set service dhcp-server shared-network-name LAN1 subnet 10.0.1.0/24 start 10.0.1.100 stop 10.0.1.220
+set service dhcp-server static-arp disable
+set service dhcp-server use-dnsmasq disable
+
+#DNS Configuration
+set service dns forwarding cache-size 2048
+set service dns forwarding listen-on eth0
+set service dns forwarding dhcp eth2
+set service dns forwarding name-server 8.8.8.8
+set service dns forwarding name-server 8.8.4.4
+set service dns forwarding options expand-hosts
+set service dns forwarding options bogus-priv
+set service dns forwarding options localise-queries
+set service dns forwarding options strict-order
+
+commit ; save
