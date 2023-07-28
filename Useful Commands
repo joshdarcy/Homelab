@@ -16,6 +16,13 @@ New-Item -Path (Split-Path $dest) -Type Directory -Force
 (New-Object System.Net.WebClient).DownloadFile($source, $dest)
 Start $dest
 
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+Set-PSRepository PSGallery -InstallationPolicy Trusted
+Install-Module -Name PSWindowsUpdate -force
+Set-ExecutionPolicy Bypass -Scope CurrentUser -Force
+Import-Module PSWindowsUpdate
+Get-WindowsUpdate
+
 systeminfo | findstr /B "Domain"
 repadmin /syncall /AdeP
 Rename-Computer -NewName "MyComputer" -DomainCredential "DOMAIN\Administrator"
