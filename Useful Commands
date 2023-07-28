@@ -1,0 +1,51 @@
+## Useful Commands
+
+## Windows
+
+#Command Prompt
+msiexec.exe /I "site" CMDLINE=SME,quiet /qn /l*v install.log
+sfc /scannow
+dism /Online /Cleanup-Image /RestoreHealth
+net user <username> /active:no
+
+#PowerShell
+[System.Net.SecurityProtocolType]::Tls12
+$source = "https://syrah.centrastage.net/csm/profile/downloadAgent/xxxxxxxxxx-xxxxxxx-xxxxxx”
+$dest = "C:\temp\Newagent.exe"
+New-Item -Path (Split-Path $dest) -Type Directory -Force
+(New-Object System.Net.WebClient).DownloadFile($source, $dest)
+Start $dest
+
+systeminfo | findstr /B "Domain"
+repadmin /syncall /AdeP
+Rename-Computer -NewName "MyComputer" -DomainCredential "DOMAIN\Administrator"
+Get-NetAdapter
+
+$output = @()
+$Hive = [long]$HIVE_HKU = 2147483651
+$sessions = Get-WmiObject -Class win32_process | ?{$_.name -eq "explorer.exe"}
+if($sessions){
+foreach($explorer in $sessions){
+$sid = ($explorer.GetOwnerSid()).sid
+$owner = $explorer.GetOwner()
+$RegProv = get-WmiObject -List -Namespace "root\default" | Where-Object {$_.Name -eq "StdRegProv"}
+$DriveList = $RegProv.EnumKey($Hive, "$($sid)\Network")
+if($DriveList.sNames.count -gt 0){
+foreach($drive in $DriveList.sNames){
+$output += "$($drive)`t$(($RegProv.GetStringValue($Hive, "$($sid)\Network\$($drive)", "RemotePath")).sValue)`t$($owner.Domain)`t$($owner.user)`t$($ComputerName)"
+}
+}else{write-debug "No mapped drives on $($ComputerName)"}
+}
+}else{write-debug "explorer.exe not running on $($ComputerName)"}
+return $output
+
+## Windows Server
+Start-ADSyncSyncCycle -PolicyType Delta
+
+# Office 365
+Connect-ExchangeOnline -UserPrincipalName administrator@contoso.com.au
+Add-MailboxFolderPermission -Identity $mailboxIdentity -User $newUserEmail -AccessRights PublishingEditor
+Set-CASMailbox -Identity scans@domain.com.au -SmtpClientAuthenticationDisabled $false
+
+## Linux
+sudo ip add add 192.168.88.1/24 dev enp8s0
