@@ -23,6 +23,8 @@ Set-ExecutionPolicy Bypass -Scope CurrentUser -Force
 Import-Module PSWindowsUpdate
 Get-WindowsUpdate
 
+
+
 systeminfo | findstr /B "Domain"
 repadmin /syncall /AdeP
 Rename-Computer -NewName "MyComputer" -DomainCredential "DOMAIN\Administrator"
@@ -52,7 +54,11 @@ Start-ADSyncSyncCycle -PolicyType Delta
 # Office 365
 Connect-ExchangeOnline -UserPrincipalName administrator@contoso.com.au
 Add-MailboxFolderPermission -Identity $mailboxIdentity -User $newUserEmail -AccessRights PublishingEditor
-Set-CASMailbox -Identity scans@domain.com.au -SmtpClientAuthenticationDisabled $false
+Set-CASMailbox -Identity scans@contoso.com.au -SmtpClientAuthenticationDisabled $false
+Get-EXOMailboxStatistics mailbox@contoso.com.au
+Get-Mailbox mailbox@contoso.com.au | FL RetentionPolicy
+Start-ManagedFolderAssistant mailbox@contoso.com.au
+
 
 # Dynamics 365 Business Central
 New-NavServerUser NAV_StoreUsers -WindowsAccount INTERNAL\username -FullName "FirstName LastName" -LicenseType 0 -ContactEmail "firtname.lastname@cornetts.com.au"
