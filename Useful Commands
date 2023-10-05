@@ -23,7 +23,7 @@ Set-ExecutionPolicy Bypass -Scope CurrentUser -Force
 Import-Module PSWindowsUpdate
 Get-WindowsUpdate
 
-
+Get-WindowsUpdate -KBArticleID 'KB5027215' -Install -IgnoreReboot -AcceptAll
 
 systeminfo | findstr /B "Domain"
 repadmin /syncall /AdeP
