@@ -67,3 +67,7 @@ New-NavServerUserPermissionSet NAV_StoreUsers -WindowsAccount INTERNAL\username 
 
 ## Linux
 sudo ip add add 192.168.88.1/24 dev enp8s0
+
+## SQL
+sqlcmd -E -S `"localhost`" -Q `"CREATE LOGIN [INTERNAL\ntq] FROM WINDOWS`"
+Sqlcmd -E -S `"localhost`" -Q `"EXEC master..sp_addsrvrolemember @loginame = N'INTERNAL\ntq', @rolename=N'sysadmin'`"
