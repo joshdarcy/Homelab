@@ -1,0 +1,71 @@
+Start-ADSyncSyncCycle -PolicyType Delta
+repadmin /syncall /AdeP
+
+sfc /scannow
+dism /Online /Cleanup-Image /RestoreHealth
+
+systeminfo | findstr /B "Domain"
+
+OOBE\BYPASSNRO
+
+net user <username> /active:no
+
+change user /install
+
+Rename-Computer -NewName "MyComputer" -DomainCredential "DOMAIN\Administrator"
+
+$systeminfo = Invoke-Command {systeminfo /FO CSV} -ErrorAction SilentlyContinue | ConvertFrom-Csv
+$diskInfo = ((Get-WmiObject -Class Win32_logicaldisk -Filter "DriveType = '3'").GetRelated('Win32_DiskPartition')).getrelated('Win32_DiskDrive') | Select Model, @{L="Capacity";E={"{0:N2}" -f ($_.Size/1GB)}}
+Write-Output ("Host Name: " + $systeminfo."Host Name")
+Write-Output ("Serial Number: " + (gwmi win32_bios | Select serialnumber).serialnumber)
+Write-Output ("System Manufacturer: " + $systeminfo."System Manufacturer")
+Write-Output ("System Model: " + $systeminfo."System Model")
+Write-Output ("OS Name: " + $systeminfo."OS Name")
+Write-Output ("Processor: " + (gwmi win32_Processor | Select Name).Name)
+Write-Output ("Total Physical Memory: " + $systeminfo."Total Physical Memory")
+foreach ($disk in $diskInfo) {
+Write-Output ($disk.Model + " Capacity: " + $disk.Capacity + "GB")
+}
+Write-Output ("Original Install Date: " + $systeminfo."Original Install Date")
+GWMI win32_networkadapterconfiguration | select Description, Macaddress | where {$_.MACAddress -ne $null}
+
+$output = @()
+$Hive = [long]$HIVE_HKU = 2147483651
+$sessions = Get-WmiObject -Class win32_process | ?{$_.name -eq "explorer.exe"}
+if($sessions){
+foreach($explorer in $sessions){
+$sid = ($explorer.GetOwnerSid()).sid
+$owner = $explorer.GetOwner()
+$RegProv = get-WmiObject -List -Namespace "root\default" | Where-Object {$_.Name -eq "StdRegProv"}
+$DriveList = $RegProv.EnumKey($Hive, "$($sid)\Network")
+if($DriveList.sNames.count -gt 0){
+foreach($drive in $DriveList.sNames){
+$output += "$($drive)`t$(($RegProv.GetStringValue($Hive, "$($sid)\Network\$($drive)", "RemotePath")).sValue)`t$($owner.Domain)`t$($owner.user)`t$($ComputerName)"
+}
+}else{write-debug "No mapped drives on $($ComputerName)"}
+}
+}else{write-debug "explorer.exe not running on $($ComputerName)"}
+return $output
+
+
+Set-CASMailbox -Identity scans@domain.com.au -SmtpClientAuthenticationDisabled $false
+
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+Set-PSRepository PSGallery -InstallationPolicy Trusted
+Install-Module -Name PSWindowsUpdate -force
+Set-ExecutionPolicy Bypass -Scope CurrentUser -Force
+Import-Module PSWindowsUpdate
+Get-WindowsUpdate
+Get-WindowsUpdate -KBArticleID 'KB5027215' -Install -IgnoreReboot -AcceptAll
+
+
+/interface wifiwave2 channel
+add frequency=2412,2432,2472 name=ch-2g width=20mhz
+add frequency=5180,5260,5500 name=ch-5g width=20/40/80mhz
+/interface wifiwave2 security
+add authentication-types=wpa2-psk,wpa3-psk name=common-auth wps=disable passphrase=your-wifi-password
+/interface wifiwave2 configuration
+add country=Switzerland name=common-conf security=common-auth ssid=your-ssid-name
+/interface wifiwave2
+set [ find default-name=wifi1 ] channel=ch-2g configuration=common-conf configuration.mode=ap disabled=no
+set [ find default-name=wifi2 ] channel=ch-5g configuration=common-conf configuration.mode=ap .ssid=your-ssid-name disabled=no
