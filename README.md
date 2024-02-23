@@ -5,7 +5,6 @@ Working in primarily in a Windows, Windows Server & 365/Azure environment, this 
 * Linux
 * Proxmox
 * Docker
-* Infrastructure-as-a-Code functionality with Terraform
 
 Current goals:
 * Better understand SSL certificate processes (Specifically through LetsEncrypt and related automation)
