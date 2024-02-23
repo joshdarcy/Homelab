@@ -1,0 +1,184 @@
+#On Factory Reset, the LAN port is eth0. I'll be configuring my ER-4 with LAN on eth0, and WAN on eth2. I'll be using 10.0.1.0/24 for my LAN network, and WAN on DHCP from my ISP.
+#Configure LAN interface
+delete interfaces ethernet eth0 address 192.168.1.1/24
+set interfaces ethernet eth0 address 10.0.1.1/24
+set interfaces ethernet eth0 description LAN
+
+#Configure WAN interface
+set interfaces ethernet eth2 address dhcp
+set interfaces ethernet eth2 description WAN
+
+#Confirm the ER-4 is accessible on 10.0.1.1
+commit ; save
+
+#Configure system settings and user settings
+set service ubnt-discover disable
+set service unms disable
+set system host-name <myroutername>
+set system login user <username> authentication plaintext-password <password>
+set system login user <username> level admin
+delete system login user ubnt
+
+set system name-server 8.8.8.8
+set system name-server 4.2.2.1
+set system traffic-analysis dpi enable
+set system traffic-analysis export enable
+
+commit ; save
+
+#Now, you should be able to reach the internet from the router, but our client machines still can't, so we need to configure NAT on LAN/eth0.
+set service nat rule 5000 description 'masquerade for WAN1'
+set service nat rule 5000 log disable
+set service nat rule 5000 outbound-interface eth2
+set service nat rule 5000 protocol all
+set service nat rule 5000 type masquerade
+
+set port-forward auto-firewall enable
+set port-forward hairpin-nat enable
+set port-forward lan-interface eth0
+set port-forward wan-interface eth2
+
+#Now, my clients will be able to hit the internet via ping, but they won't be able to resolve hostnames. Time to finalise DHCP and DNS.
+#DHCP Configuration
+set service dhcp-server disabled false
+set service dhcp-server hostfile-update disable
+set service dhcp-server shared-network-name LAN1 authoritative enable
+set service dhcp-server shared-network-name LAN1 subnet 10.0.1.0/24 default-router 10.0.1.1
+set service dhcp-server shared-network-name LAN1 subnet 10.0.1.0/24 dns-server 10.0.1.1
+set service dhcp-server shared-network-name LAN1 subnet 10.0.1.0/24 lease 86400
+set service dhcp-server shared-network-name LAN1 subnet 10.0.1.0/24 start 10.0.1.100 stop 10.0.1.220
+set service dhcp-server static-arp disable
+set service dhcp-server use-dnsmasq disable
+
+#DNS Configuration
+set service dns forwarding cache-size 2048
+set service dns forwarding listen-on eth0
+set service dns forwarding dhcp eth2
+set service dns forwarding name-server 8.8.8.8
+set service dns forwarding name-server 8.8.4.4
+set service dns forwarding options expand-hosts
+set service dns forwarding options bogus-priv
+set service dns forwarding options localise-queries
+set service dns forwarding options strict-order
+
+commit ; save
+
+#Base Firewall Settings
+set firewall all-ping enable
+set firewall broadcast-ping disable
+set firewall ip-src-route disable
+set firewall log-martians enable
+set firewall receive-redirects disable
+set firewall send-redirects enable
+set firewall source-validation disable
+set firewall syn-cookies enable
+
+#Configure IPv6 Firewall settings
+set firewall ipv6-name WANv6_IN default-action drop
+set firewall ipv6-name WANv6_IN description 'WAN inbound traffic forwarded to LAN'
+set firewall ipv6-name WANv6_IN enable-default-log
+set firewall ipv6-name WANv6_IN rule 10 action accept
+set firewall ipv6-name WANv6_IN rule 10 description 'Allow established/related sessions'
+set firewall ipv6-name WANv6_IN rule 10 state established enable
+set firewall ipv6-name WANv6_IN rule 10 state related enable
+set firewall ipv6-name WANv6_IN rule 20 action drop
+set firewall ipv6-name WANv6_IN rule 20 description 'Drop invalid state'
+set firewall ipv6-name WANv6_IN rule 20 state invalid enable
+set firewall ipv6-name WANv6_LOCAL default-action drop
+set firewall ipv6-name WANv6_LOCAL description 'WAN inbound traffic to the router'
+set firewall ipv6-name WANv6_LOCAL enable-default-log
+set firewall ipv6-name WANv6_LOCAL rule 10 action accept
+set firewall ipv6-name WANv6_LOCAL rule 10 description 'Allow established/related sessions'
+set firewall ipv6-name WANv6_LOCAL rule 10 state established enable
+set firewall ipv6-name WANv6_LOCAL rule 10 state related enable
+set firewall ipv6-name WANv6_LOCAL rule 20 action drop
+set firewall ipv6-name WANv6_LOCAL rule 20 description 'Drop invalid state'
+set firewall ipv6-name WANv6_LOCAL rule 20 state invalid enable
+set firewall ipv6-name WANv6_LOCAL rule 30 action accept
+set firewall ipv6-name WANv6_LOCAL rule 30 description 'Allow IPv6 icmp'
+set firewall ipv6-name WANv6_LOCAL rule 30 protocol ipv6-icmp
+set firewall ipv6-name WANv6_LOCAL rule 40 action accept
+set firewall ipv6-name WANv6_LOCAL rule 40 description 'allow dhcpv6'
+set firewall ipv6-name WANv6_LOCAL rule 40 destination port 546
+set firewall ipv6-name WANv6_LOCAL rule 40 protocol udp
+set firewall ipv6-name WANv6_LOCAL rule 40 source port 547
+set firewall ipv6-receive-redirects disable
+set firewall ipv6-src-route disable
+
+#Configure IPv4 Firewall Settings
+set firewall name WAN_IN default-action drop
+set firewall name WAN_IN description 'WAN to internal'
+set firewall name WAN_IN rule 10 action accept
+set firewall name WAN_IN rule 10 description 'Allow established/related'
+set firewall name WAN_IN rule 10 state established enable
+set firewall name WAN_IN rule 10 state related enable
+set firewall name WAN_IN rule 20 action drop
+set firewall name WAN_IN rule 20 description 'Drop invalid state'
+set firewall name WAN_IN rule 20 state invalid enable
+set firewall name WAN_LOCAL default-action drop
+set firewall name WAN_LOCAL description 'WAN to router'
+set firewall name WAN_LOCAL rule 10 action accept
+set firewall name WAN_LOCAL rule 10 description 'Allow remote admin'
+set firewall name WAN_LOCAL rule 10 log disable
+set firewall name WAN_LOCAL rule 10 protocol all
+set firewall name WAN_LOCAL rule 10 source group address-group remote_admin
+set firewall name WAN_LOCAL rule 20 action accept
+set firewall name WAN_LOCAL rule 20 description 'Allow established/related'
+set firewall name WAN_LOCAL rule 20 state established enable
+set firewall name WAN_LOCAL rule 20 state related enable
+set firewall name WAN_LOCAL rule 30 action accept
+set firewall name WAN_LOCAL rule 30 description ike
+set firewall name WAN_LOCAL rule 30 destination port 500
+set firewall name WAN_LOCAL rule 30 log disable
+set firewall name WAN_LOCAL rule 30 protocol udp
+set firewall name WAN_LOCAL rule 40 action accept
+set firewall name WAN_LOCAL rule 40 description esp
+set firewall name WAN_LOCAL rule 40 log disable
+set firewall name WAN_LOCAL rule 40 protocol esp
+set firewall name WAN_LOCAL rule 50 action accept
+set firewall name WAN_LOCAL rule 50 description nat-t
+set firewall name WAN_LOCAL rule 50 destination port 4500
+set firewall name WAN_LOCAL rule 50 log disable
+set firewall name WAN_LOCAL rule 50 protocol udp
+set firewall name WAN_LOCAL rule 60 action accept
+set firewall name WAN_LOCAL rule 60 description l2tp
+set firewall name WAN_LOCAL rule 60 destination port 1701
+set firewall name WAN_LOCAL rule 60 ipsec match-ipsec
+set firewall name WAN_LOCAL rule 60 log disable
+set firewall name WAN_LOCAL rule 60 protocol udp
+set firewall name WAN_LOCAL rule 90 action drop
+set firewall name WAN_LOCAL rule 90 description 'Drop invalid state'
+set firewall name WAN_LOCAL rule 90 state invalid enable
+
+#Assign rules to eth2
+set interfaces ethernet eth2 firewall in name WAN_IN
+set interfaces ethernet eth2 firewall local name WAN_LOCAL
+
+commit ; save
+
+#My home network is not on a static IP, so for my L2TP VPN I update it via Dynamic DDNS through NOIP
+set service dns dynamic interface eth2 service NOIP host-name <ddnsaddress>
+set service dns dynamic interface eth2 service NOIP login <username>
+set service dns dynamic interface eth2 service NOIP password <password>
+
+#Configure Pre-Shared Key
+set vpn l2tp remote-access ipsec-settings authentication mode pre-shared-secret
+set vpn l2tp remote-access ipsec-settings authentication pre-shared-secret <pre-shared-key>
+
+#Configure Authentication Settings
+set vpn l2tp remote-access authentication mode local
+set vpn l2tp remote-access authentication local-users username <username> password <password>
+
+#Configure IP Address Pool
+set vpn l2tp remote-access client-ip-pool start 10.0.1.230
+set vpn l2tp remote-access client-ip-pool stop 10.0.1.239
+
+#Configure DNS Servers
+set vpn l2tp remote-access dns-servers server-1 8.8.8.8
+set vpn l2tp remote-access dns-servers server-2 8.8.4.4
+
+#Define WAN interface
+set vpn l2tp remote-access dhcp-interface eth2
+set vpn ipsec ipsec-interfaces interface eth2
+
+commit ; save
