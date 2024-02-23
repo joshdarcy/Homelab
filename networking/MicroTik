@@ -1,0 +1,242 @@
+# jan/02/1970 13:09:37 by RouterOS 7.8
+#
+# model = C53UiG+5HPaxD2HPaxD
+/interface bridge
+add arp=proxy-arp fast-forward=no name=bridge1
+/interface list
+add name=LAN
+add name=WAN
+/ip pool
+add name=DHCP-pool ranges=192.168.49.100-192.168.49.200
+add name=l2tp-pool ranges=192.168.49.210-192.168.49.219
+/ip dhcp-server
+add address-pool=DHCP-pool authoritative=after-2sec-delay interface=bridge1 \
+    lease-time=1w name=DHCP-server
+/ppp profile
+set *FFFFFFFE bridge=bridge1 dns-server=192.168.49.254,1.1.1.1 local-address=\
+    192.168.49.254 remote-address=l2tp-pool use-encryption=required
+/interface bridge port
+add bridge=bridge1 interface=ether2
+add bridge=bridge1 interface=ether3
+add bridge=bridge1 interface=ether4
+add bridge=bridge1 interface=ether5
+/ip neighbor discovery-settings
+set discover-interface-list=!dynamic
+/interface detect-internet
+set wan-interface-list=WAN
+/interface l2tp-server server
+set enabled=yes use-ipsec=yes
+/interface list member
+add interface=bridge1 list=LAN
+add comment=defconf interface=ether1 list=WAN
+/ip address
+add address=192.168.49.254/24 interface=bridge1 network=192.168.49.0
+/ip dhcp-client
+add interface=ether1
+/ip dhcp-server network
+add address=192.168.49.0/24 dns-server=192.168.49.254 domain=router.lan \
+    gateway=192.168.49.254 netmask=24
+/ip dns
+set allow-remote-requests=yes servers=1.1.1.1,8.8.8.8
+/ip firewall address-list
+add address=0.0.0.0/8 comment="Self-Identification [RFC 3330]" list=bogons
+add address=10.0.0.0/8 comment="Private[RFC 1918] - CLASS A # Check if you nee\
+    d this subnet before enable it" disabled=yes list=bogons
+add address=127.0.0.0/8 comment="Loopback [RFC 3330]" list=bogons
+add address=169.254.0.0/16 comment="Link Local [RFC 3330]" list=bogons
+add address=172.16.0.0/12 comment="Private[RFC 1918] - CLASS B # Check if you \
+    need this subnet before enable it" disabled=yes list=bogons
+add address=192.168.0.0/16 comment="Private[RFC 1918] - CLASS C # Check if you\
+    \_need this subnet before enable it" disabled=yes list=bogons
+add address=192.0.2.0/24 comment="Reserved - IANA - TestNet1" list=bogons
+add address=192.88.99.0/24 comment="6to4 Relay Anycast [RFC 3068]" list=\
+    bogons
+add address=198.18.0.0/15 comment="NIDB Testing" list=bogons
+add address=198.51.100.0/24 comment="Reserved - IANA - TestNet2" list=bogons
+add address=203.0.113.0/24 comment="Reserved - IANA - TestNet3" list=bogons
+add address=224.0.0.0/4 comment=\
+    "MC, Class D, IANA # Check if you need this subnet before enable it" \
+    disabled=yes list=bogons
+add list=ddos-attackers
+add list=ddos-targets
+/ip firewall filter
+add action=accept chain=input comment=\
+    "Accept Established, Related, Untracked" connection-state=\
+    established,related,untracked
+add action=accept chain=input comment=ICMP protocol=icmp
+add action=accept chain=input comment="accept to local loopback (for CAPsMAN" \
+    dst-address=127.0.0.1
+add action=accept chain=input comment="Accept to Local Loopback" dst-address=\
+    127.0.0.1
+add action=accept chain=forward comment="defconf: accept in ipsec policy" \
+    ipsec-policy=in,ipsec
+add action=accept chain=forward comment="defconf: accept out ipsec policy" \
+    ipsec-policy=out,ipsec
+add action=accept chain=forward src-address=0.0.0.0
+add action=accept chain=input comment="External WinBox Access" dst-port=8291 \
+    protocol=tcp
+add action=accept chain=input comment="L2TP VPN" dst-port=500,1701,4500 \
+    in-interface=ether1 protocol=udp
+add action=add-src-to-address-list address-list=Syn_Flooder \
+    address-list-timeout=30m chain=input comment=\
+    "Add Syn Flood IP to the list" connection-limit=30,32 protocol=tcp \
+    tcp-flags=syn
+add action=drop chain=input comment="Drop to syn flood list" \
+    src-address-list=Syn_Flooder
+add action=add-src-to-address-list address-list=Port_Scanner \
+    address-list-timeout=1w chain=input comment="Port Scanner Detect" \
+    protocol=tcp psd=21,3s,3,1
+add action=drop chain=input comment="Drop to port scan list" \
+    src-address-list=Port_Scanner
+add action=jump chain=input comment="Jump for icmp input flow" jump-target=\
+    ICMP protocol=icmp
+add action=accept chain=input comment="Accept to Local Loopback" dst-address=\
+    127.0.0.1
+add action=accept chain=forward comment="defconf: accept in ipsec policy" \
+    ipsec-policy=in,ipsec
+add action=accept chain=forward comment="defconf: accept out ipsec policy" \
+    ipsec-policy=out,ipsec
+add action=accept chain=forward src-address=0.0.0.0
+add action=add-src-to-address-list address-list=Syn_Flooder \
+    address-list-timeout=30m chain=input comment=\
+    "Add Syn Flood IP to the list" connection-limit=30,32 protocol=tcp \
+    tcp-flags=syn
+add action=drop chain=input comment="Drop to syn flood list" \
+    src-address-list=Syn_Flooder
+add action=add-src-to-address-list address-list=Port_Scanner \
+    address-list-timeout=1w chain=input comment="Port Scanner Detect" \
+    protocol=tcp psd=21,3s,3,1
+add action=drop chain=input comment="Drop to port scan list" \
+    src-address-list=Port_Scanner
+add action=jump chain=input comment="Jump for icmp input flow" jump-target=\
+    ICMP protocol=icmp
+add action=jump chain=forward comment="Jump for icmp forward flow" \
+    jump-target=ICMP protocol=icmp
+add action=drop chain=forward comment="Drop to bogon list" dst-address-list=\
+    bogons
+add action=add-src-to-address-list address-list=spammers \
+    address-list-timeout=3h chain=forward comment=\
+    "Add Spammers to the list for 3 hours" connection-limit=30,32 dst-port=\
+    25,587 limit=30/1m,0 protocol=tcp
+add action=drop chain=forward comment="Avoid spammers action" dst-port=25,587 \
+    protocol=tcp src-address-list=spammers
+add action=accept chain=input comment="Accept DNS - UDP" port=53 protocol=udp
+add action=accept chain=input comment="Accept DNS - TCP" port=53 protocol=tcp
+add action=accept chain=input comment="Accept to established connections" \
+    connection-state=established
+add action=accept chain=input comment="Accept to related connections" \
+    connection-state=related
+add action=accept chain=ICMP comment=\
+    "Echo request - Avoiding Ping Flood, adjust the limit as needed" \
+    icmp-options=8:0 limit=2,5 protocol=icmp
+add action=accept chain=ICMP comment="Echo reply" icmp-options=0:0 protocol=\
+    icmp
+add action=accept chain=ICMP comment="Time Exceeded" icmp-options=11:0 \
+    protocol=icmp
+add action=accept chain=ICMP comment="Destination unreachable" icmp-options=\
+    3:0-1 protocol=icmp
+add action=accept chain=ICMP comment=PMTUD icmp-options=3:4 protocol=icmp
+add action=drop chain=ICMP comment="Drop to the other ICMPs" protocol=icmp
+add action=jump chain=output comment="Jump for icmp output" jump-target=ICMP \
+    protocol=icmp
+add action=return chain=detect-ddos dst-limit=32,32,src-and-dst-addresses/10s
+add action=add-dst-to-address-list address-list=ddos-targets \
+    address-list-timeout=10m chain=detect-ddos
+add action=add-src-to-address-list address-list=ddos-attackers \
+    address-list-timeout=10m chain=detect-ddos
+add action=accept chain=input protocol=ipencap
+add action=drop chain=forward comment="defconf: drop invalid" \
+    connection-state=invalid
+add action=drop chain=forward comment=\
+    "defconf: drop all from WAN not DSTNATed" connection-nat-state=!dstnat \
+    connection-state=new in-interface-list=WAN
+add action=drop chain=input comment="defconf: drop invalid" connection-state=\
+    invalid
+add action=drop chain=input comment="defconf: drop all not coming from LAN" \
+    in-interface-list=!LAN
+/ip firewall nat
+add action=masquerade chain=srcnat out-interface-list=all
+/ip firewall raw
+add action=drop chain=prerouting dst-address-list=ddos-targets \
+    src-address-list=ddos-attackers
+/ip firewall service-port
+set ftp disabled=yes
+set sip disabled=yes
+/ip service
+set telnet disabled=yes
+set ftp disabled=yes
+set www disabled=yes
+set ssh disabled=yes
+set api disabled=yes
+set api-ssl disabled=yes
+/ipv6 firewall address-list
+add address=::/128 comment="defconf: unspecified address" list=bad_ipv6
+add address=::1/128 comment="defconf: lo" list=bad_ipv6
+add address=fec0::/10 comment="defconf: site-local" list=bad_ipv6
+add address=::ffff:0.0.0.0/96 comment="defconf: ipv4-mapped" list=bad_ipv6
+add address=::/96 comment="defconf: ipv4 compat" list=bad_ipv6
+add address=100::/64 comment="defconf: discard only " list=bad_ipv6
+add address=2001:db8::/32 comment="defconf: documentation" list=bad_ipv6
+add address=2001:10::/28 comment="defconf: ORCHID" list=bad_ipv6
+add address=3ffe::/16 comment="defconf: 6bone" list=bad_ipv6
+/ipv6 firewall filter
+add action=accept chain=input comment=\
+    "defconf: accept established,related,untracked" connection-state=\
+    established,related,untracked
+add action=drop chain=input comment="defconf: drop invalid" connection-state=\
+    invalid
+add action=accept chain=input comment="defconf: accept ICMPv6" protocol=\
+    icmpv6
+add action=accept chain=input comment="defconf: accept UDP traceroute" port=\
+    33434-33534 protocol=udp
+add action=accept chain=input comment=\
+    "defconf: accept DHCPv6-Client prefix delegation." dst-port=546 protocol=\
+    udp src-address=fe80::/10
+add action=accept chain=input comment="defconf: accept IKE" dst-port=500,4500 \
+    protocol=udp
+add action=accept chain=input comment="defconf: accept ipsec AH" protocol=\
+    ipsec-ah
+add action=accept chain=input comment="defconf: accept ipsec ESP" protocol=\
+    ipsec-esp
+add action=accept chain=input comment=\
+    "defconf: accept all that matches ipsec policy" ipsec-policy=in,ipsec
+add action=drop chain=input comment=\
+    "defconf: drop everything else not coming from LAN" in-interface-list=\
+    !LAN
+add action=accept chain=forward comment=\
+    "defconf: accept established,related,untracked" connection-state=\
+    established,related,untracked
+add action=drop chain=forward comment="defconf: drop invalid" \
+    connection-state=invalid
+add action=drop chain=forward comment=\
+    "defconf: drop packets with bad src ipv6" src-address-list=bad_ipv6
+add action=drop chain=forward comment=\
+    "defconf: drop packets with bad dst ipv6" dst-address-list=bad_ipv6
+add action=drop chain=forward comment="defconf: rfc4890 drop hop-limit=1" \
+    hop-limit=equal:1 protocol=icmpv6
+add action=accept chain=forward comment="defconf: accept ICMPv6" protocol=\
+    icmpv6
+add action=accept chain=forward comment="defconf: accept HIP" protocol=139
+add action=accept chain=forward comment="defconf: accept IKE" dst-port=\
+    500,4500 protocol=udp
+add action=accept chain=forward comment="defconf: accept ipsec AH" protocol=\
+    ipsec-ah
+add action=accept chain=forward comment="defconf: accept ipsec ESP" protocol=\
+    ipsec-esp
+add action=accept chain=forward comment=\
+    "defconf: accept all that matches ipsec policy" ipsec-policy=in,ipsec
+add action=drop chain=forward comment=\
+    "defconf: drop everything else not coming from LAN" in-interface-list=\
+    !LAN
+/system clock
+set time-zone-name=Australia/Brisbane
+/system ntp client
+set enabled=yes
+/system ntp client servers
+add address=au.pool.ntp.org
+/tool mac-server
+set allowed-interface-list=LAN
+/tool mac-server mac-winbox
+set allowed-interface-list=LAN
+/tool mac-server ping
+set enabled=no
