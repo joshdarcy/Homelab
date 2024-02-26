@@ -15,6 +15,13 @@ services:
     volumes:
       - ./certbot/www/:/var/www/certbot/:rw
       - ./certbot/conf/:/etc/letsencrypt/:rw
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ./prometheus/:/etc/prometheus/
+      - prometheus_data:/prometheus
+    ports:
+      - "9090:9090"
   grafana:
     image: grafana/grafana:latest
     container_name: grafana
@@ -25,6 +32,16 @@ services:
     ports:
       - '3000:3000'
     volumes:
-      - 'grafana_storage:/var/lib/gradana'
+      - grafana_storage:/var/lib/grafana
+      - ./grafana/provisioning/:/etc/grafana/provisioning/
+  homepage:
+    image: ghcr.io/gethomepage/homepage:latest
+    ports:
+      - '8000:8000'
+    environment:
+      - PORT=8000
+      - PAGE_TITLE="joshdarcy's homelab"
+      - LOG_LEVEL=info
 volumes:
   grafana_storage: {}
+  prometheus_data: {}
