@@ -15,7 +15,7 @@ Current goals:
 ### Hardware:
 By Frankenstein-ing some old gear from work and friends, I've got a machine powerful enough for my virtualization needs with relatively low power draw:
 * Intel i7 9700F CPU
-* 64GB DDR4 RAM
+* 16GB DDR4 RAM
 * Asus GeForce GTX 1080 8GB GPU
 * Samsung 870 EVO 500GB SSD
 * WD Blue 1TB HDD
@@ -28,8 +28,28 @@ By Frankenstein-ing some old gear from work and friends, I've got a machine powe
 * Ubiquiti Unifi AC Long-Range Access Point
 
 #### Network Diagram
-![Homelab](https://github.com/joshdarcy/Homelab/assets/130115650/dcaf4a73-b2c4-49dd-8d91-25ba56437e03)
+
+![Homelab](https://github.com/joshdarcy/Homelab/assets/130115650/62a04980-b3e9-4c99-8a68-b8afdcdebbe2)
 
 Both the Proxmox Server, NAS and Access Point are connected directly to the MicroTik LAN bridged ports.
 
+### Dashboards
+
+Uptime Kuma
+uptime.joshdarcy.xyz
+![image](https://github.com/joshdarcy/Homelab/assets/130115650/44304812-28e9-4396-b6bc-dd10b9543ba4)
+
+Grafana
+grafana.joshdarcy.xyz
+![image](https://github.com/joshdarcy/Homelab/assets/130115650/4e9a3301-3fb1-45bc-be00-55d5a46609ae)
+
+Portainer
+portainer.joshdarcy.xyz
+![image](https://github.com/joshdarcy/Homelab/assets/130115650/68f7447d-90dd-445c-b186-1d2b766291c0)
+
+NGINX is hosted on the Ubuntu Server & CloudFlare DNS is used as the reverse proxy. 
+
+# Old Diagram
+
+![Homelab](https://github.com/joshdarcy/Homelab/assets/130115650/dcaf4a73-b2c4-49dd-8d91-25ba56437e03)
 
