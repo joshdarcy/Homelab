@@ -1,45 +1,44 @@
 version: '3'
 
 services:
-  webserver:
-    image: nginx:latest
-    ports:
-      - "80:80"
-      - "443:443"
+  uptime-kuma:
+    image: louislam/uptime-kuma
+    container_name: uptime-kuma
     restart: always
-    volumes:
-      - ./nginx/conf/:/etc/nginx/conf.d/:ro
-      - ./certbot/www/:/var/www/certbot/:ro
-
-  certbot:
-    image: certbot/certbot:latest
-    volumes:
-      - ./certbot/www/:/var/www/certbot/:rw
-      - ./certbot/conf/:/etc/letsencrypt/:rw
-
-  prometheus:
-    image: prom/prometheus:latest
     ports:
-      - "9090:9090"
+      - "3001:3001"
     volumes:
-      - ./prometheus/:/etc/prometheus/
-      - prometheus_data:/prometheus
+      - uptime-kuma-data:/app/data
 
   grafana:
-    image: grafana/grafana:latest
+    image: grafana/grafana
+    container_name: grafana
     restart: always
-    environment:
-      - TERM=linux
-      - GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-polystat-panel
-      - PORT=3000
-      - PAGE_TITLE="joshdarcy's homelab"
-      - LOG_LEVEL=info
     ports:
       - "3000:3000"
     volumes:
-      - grafana_storage:/var/lib/grafana
-      - ./grafana/provisioning/:/etc/grafana/provisioning/
+      - grafana-storage:/var/lib/grafana
+
+  influxdb:
+    image: influxdb:2.0
+    container_name: influxdb
+    restart: always
+    ports:
+      - "8086:8086"
+    volumes:
+      - influxdb2-storage:/var/lib/influxdb2
+
+  portainer:
+    image: portainer/portainer-ce
+    container_name: portainer
+    restart: always
+    ports:
+      - "9000:9000"
+    volumes:
+      - portainer-data:/data
 
 volumes:
-  grafana_storage: {}
-  prometheus_data: {}
+  uptime-kuma-data:
+  grafana-storage:
+  influxdb2-storage:
+  portainer-data:
