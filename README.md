@@ -28,8 +28,7 @@ By Frankenstein-ing some old gear from work and friends, I've got a machine powe
 * Ubiquiti Unifi AC Long-Range Access Point
 
 ### Network Diagram
-
-![Homelab(2) drawio](https://github.com/joshdarcy/Homelab/assets/130115650/788f0cd6-dda8-4ad9-b889-1b6f7962fdbb)
+![Homelab(2) drawio](https://github.com/joshdarcy/Homelab/assets/130115650/f74d325e-4a36-4a10-8568-dcb06ce08969)
 
 The Proxmox Server, NAS and Access Point are connected directly to the MicroTik LAN bridged ports.
 
