@@ -29,9 +29,9 @@ By Frankenstein-ing some old gear from work and friends, I've got a machine powe
 
 ### Network Diagram
 
-![Homelab](https://github.com/joshdarcy/Homelab/assets/130115650/62a04980-b3e9-4c99-8a68-b8afdcdebbe2)
+![Homelab(2) drawio](https://github.com/joshdarcy/Homelab/assets/130115650/788f0cd6-dda8-4ad9-b889-1b6f7962fdbb)
 
-Both the Proxmox Server, NAS and Access Point are connected directly to the MicroTik LAN bridged ports.
+The Proxmox Server, NAS and Access Point are connected directly to the MicroTik LAN bridged ports.
 
 ### Dashboards
 #### Website https://joshdarcy.xyz/
