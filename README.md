@@ -34,18 +34,14 @@ By Frankenstein-ing some old gear from work and friends, I've got a machine powe
 Both the Proxmox Server, NAS and Access Point are connected directly to the MicroTik LAN bridged ports.
 
 ### Dashboards
-#### Website
-*https://joshdarcy.xyz/*
-#### Uptime Kuma
-*https://uptime.joshdarcy.xyz/*
+#### Website https://joshdarcy.xyz/
+#### Uptime Kuma https://uptime.joshdarcy.xyz/
 
 ![image](https://github.com/joshdarcy/Homelab/assets/130115650/44304812-28e9-4396-b6bc-dd10b9543ba4)
-#### Grafana
-*https://grafana.joshdarcy.xyz/*
+#### Grafana https://grafana.joshdarcy.xyz/
 
 ![image](https://github.com/joshdarcy/Homelab/assets/130115650/4e9a3301-3fb1-45bc-be00-55d5a46609ae)
-#### Portainer
-*https://portainer.joshdarcy.xyz/*
+#### Portainer https://portainer.joshdarcy.xyz/
 
 ![image](https://github.com/joshdarcy/Homelab/assets/130115650/68f7447d-90dd-445c-b186-1d2b766291c0)
 
