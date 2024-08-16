@@ -13,26 +13,23 @@ Current goals:
 
 ## Overview
 ### Hardware:
-By Frankenstein-ing some old gear from work and friends, I've got a machine powerful enough for my virtualization needs with relatively low power draw:
-* Intel i7 9700F CPU
-* 16GB DDR4 RAM
-* Asus GeForce GTX 1080 8GB GPU
-* Samsung 870 EVO 500GB SSD
-* WD Blue 1TB HDD
+I recently replaced an old gaming PC for an Intel NUC (NUC7i5DNHE) for lower power draw:
+* Intel i5-7300 2.60 GHz CPU (4 Core)
+* 8GB DDR4 SDRAM
+* Samsung 870 EVO 256GB SSD
 
 #### Storage
-* Synology DS218+
+* Synology DS916+
 * 2 x WD RED 4TB HDD (RAID1)
 #### Networking
 * MicroTik hAP ax3
 * Ubiquiti Unifi AC Long-Range Access Point
 
 ### Network Diagram
-![Homelab(2) drawio](https://github.com/joshdarcy/Homelab/assets/130115650/f74d325e-4a36-4a10-8568-dcb06ce08969)
 
 The Proxmox Server, NAS and Access Point are connected directly to the MicroTik LAN bridged ports.
 
-#### *Currently down for maintenance
+
 ### Dashboards
 #### Website https://joshdarcy.xyz/
 #### Uptime Kuma https://uptime.joshdarcy.xyz/
