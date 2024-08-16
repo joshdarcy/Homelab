@@ -13,7 +13,7 @@ Current goals:
 
 ## Overview
 ### Hardware:
-I recently replaced an old gaming PC for an Intel NUC (NUC7i5DNHE) for lower power draw:
+I recently replaced an old PC for an Intel NUC (NUC7i5DNHE) for lower power draw:
 * Intel i5-7300 2.60 GHz CPU (4 Core)
 * 8GB DDR4 SDRAM
 * Samsung 870 EVO 256GB SSD
@@ -28,6 +28,7 @@ I recently replaced an old gaming PC for an Intel NUC (NUC7i5DNHE) for lower pow
 ### Network Diagram
 
 The Proxmox Server, NAS and Access Point are connected directly to the MicroTik LAN bridged ports.
+![image](https://github.com/user-attachments/assets/8d8ea642-8a6a-4f3b-bb91-572c9d2094e9)
 
 
 ### Dashboards
