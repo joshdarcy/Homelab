@@ -1,7 +1,8 @@
-All credit for this goes to https://github.com/keczejo/mikrotik-influxdb & https://github.com/pavelkim/mikrotik
+* All credit for this goes to https://github.com/keczejo/mikrotik-influxdb & https://github.com/pavelkim/mikrotik
+
 
 # MikroTik Grafana & InfluxDB Monitoring
-Recomended Grafana dashboard https://grafana.com/grafana/dashboards/16601
+Recommended Grafana dashboard https://grafana.com/grafana/dashboards/16601
 
 ## MikroTik Interface Traffic
 Counts rx, tx and total transferred bytes on network interfaces. Stores results in interface's comment and pushes them to InfluxDB.
@@ -22,7 +23,7 @@ Counts rx, tx and total transferred bytes on network interfaces. Stores results 
 ```
 
 ## MikroTik Health Exporter
-Reads CPU, disk and memory metrics, and pushes them into InfluxDB. Some of the metrics may not be supported by your router and will be skipped.
+Reads CPU, disk and memory metrics, and pushes them into InfluxDB.
 
 1. Import Scripts into MikroTik
 2. Set your InfluxDB Site URL & Auth Token
