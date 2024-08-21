@@ -1,4 +1,4 @@
-* All credit for this goes to https://github.com/keczejo/mikrotik-influxdb & https://github.com/pavelkim/mikrotik
+_All credit for this goes to https://github.com/keczejo/mikrotik-influxdb & https://github.com/pavelkim/mikrotik_
 
 
 # MikroTik Grafana & InfluxDB Monitoring
