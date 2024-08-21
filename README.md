@@ -6,6 +6,7 @@ Working in primarily in a Windows, Windows Server & 365/Azure environment, this 
 * Proxmox
 * Docker
 * Ansible & Automation
+* Monitoring via HTTP POST/GET requests
 
 Current goals:
 * Better understand SSL certificate processes (Specifically through LetsEncrypt and related automation)
