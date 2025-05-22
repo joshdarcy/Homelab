@@ -5,8 +5,8 @@ metadata:
 spec:
   logSeverityScreen: Info
   nodeToNodeMeshEnabled: true
-  asNumber: 64512  # Private AS number
+  asNumber: 64512  
   serviceClusterIPs:
-  - cidr: 10.43.0.0/16  # Service CIDR
+  - cidr: 10.43.0.0/16 
   serviceExternalIPs:
-  - cidr: 192.168.49.0/24  # Your home network CIDR
+  - cidr: 192.168.49.0/24
