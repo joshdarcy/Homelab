@@ -1,0 +1,20 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: sftpgo-ingress
+  namespace: utils-sftp
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    # Add any additional annotations your ingress controller requires
+spec:
+  rules:
+  - host: sftpgo.joshdarcy.xyz
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: sftpgo
+            port:
+              number: 8080

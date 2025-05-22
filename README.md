@@ -1,33 +1,36 @@
 # Homelab
 My Homelab
 
-Working in primarily in a Windows, Windows Server & 365/Azure environment, this lab is used as an environment to test configurations with:
-* Linux
-* Proxmox
-* Docker
-* Ansible & Automation
-* Monitoring via HTTP POST/GET requests
+I've expanded my homelab outside of the traditional docker running on Ubuntu server to incorporate a Kubernetes environment to further progress my platform/infrastructure knowledge in a modern environment.
+The Intel NUC hosts the same traditional services listed below through Docker but also acts as the master node in my RKE2 k8s cluster.
 
 Current goals:
-* Better understand SSL certificate processes (Specifically through LetsEncrypt and related automation)
-* Better understand how webservers are hosted, accessed and secured
-* Dive into load balancers and reverse-proxy for accessing my internal network remotely
+* Better understand Kubernetes networking specifically with Calico (load balancers, BGP peering, etc.)
+* Better understand Kubernetes workload management including resource caps and using labels/tags to allocate to specific nodes
+* Complete SSL certificate automations for internal and ingress traffic to my k8s cluster 
+* Build out a development environment for testing and staging changes for a production environment
 
 ## Overview
-### Hardware:
-I recently replaced an old PC for an Intel NUC (NUC7i5DNHE) for lower power draw:
+### Compute:
+Intel NUC (NUC7i5DNHE)
 * Intel i5-7300 2.60 GHz CPU (4 Core)
-* 8GB DDR4 SDRAM
-* Samsung 870 EVO 256GB SSD
+* 8GB DDR4 RAM
+
+Raspberry Pi 4
+* Broadcom BCM2711 1.80 GHz CPU (4 Core)
+* 4GB DDR4 RAM
 
 #### Storage
-* Synology DS916+
+* Synology DS916+ NAS
 * 2 x WD RED 4TB HDD (RAID1)
+
 #### Networking
 * MicroTik hAP ax3
 * Ubiquiti Unifi AC Long-Range Access Point
 
 ### Network Diagram
+
+#### Outdated
 
 The Proxmox Server, NAS and Access Point are connected directly to the MicroTik LAN bridged ports.
 Domain and Sub-domains are automatically renewed by Certbot with LetsEncrypt certificates

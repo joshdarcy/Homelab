@@ -1,0 +1,12 @@
+kind: BGPConfiguration
+apiVersion: projectcalico.org/v3
+metadata:
+  name: default
+spec:
+  logSeverityScreen: Info
+  nodeToNodeMeshEnabled: true
+  asNumber: 64512  # Private AS number
+  serviceClusterIPs:
+  - cidr: 10.43.0.0/16  # Service CIDR
+  serviceExternalIPs:
+  - cidr: 192.168.49.0/24  # Your home network CIDR
