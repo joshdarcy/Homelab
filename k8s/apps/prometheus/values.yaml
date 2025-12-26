@@ -7,16 +7,17 @@ defaultRules:
     etcd: false
     kubeScheduler: false
 
+prometheusOperator:
+  prometheusConfigReloader:
+    resources:
+      limits:
+        memory: 128Mi
+      requests:
+        memory: 50Mi
+
 prometheus:
   prometheusSpec:
     retention: 30d
-    initContainers:
-    - name: init-config-reloader
-      resources:
-        limits:
-          memory: 128Mi
-        requests:
-          memory: 128Mi
     securityContext:
       fsGroup: 2000
       runAsNonRoot: true
