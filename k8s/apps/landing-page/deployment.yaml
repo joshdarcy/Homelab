@@ -18,6 +18,7 @@ spec:
     spec:
       containers:
       - name: web
-        image: joshdarcy/homelab-landing:v1
+        image: joshdarcy/homelab-landing:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 80
