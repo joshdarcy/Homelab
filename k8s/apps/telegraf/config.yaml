@@ -56,7 +56,7 @@ data:
       inherit_tags = ["hostname"]
       oid = "IF-MIB::ifTable"
 
-   [[inputs.snmp.table.field]]
+    [[inputs.snmp.table.field]]
       name = "ifName"
       oid = "IF-MIB::ifDescr"
       is_tag = true
