@@ -55,4 +55,4 @@ spec:
       volumes:
       - name: config
         configMap:
-          name: telegraf-config
+          name: config
