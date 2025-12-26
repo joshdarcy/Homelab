@@ -10,6 +10,17 @@ defaultRules:
 prometheus:
   prometheusSpec:
     retention: 30d
+    initContainers:
+    - name: init-config-reloader
+      resources:
+        limits:
+          memory: 128Mi
+        requests:
+          memory: 128Mi
+    securityContext:
+      fsGroup: 2000
+      runAsNonRoot: true
+      runAsUser: 1000
     storageSpec:
       volumeClaimTemplate:
         spec:
