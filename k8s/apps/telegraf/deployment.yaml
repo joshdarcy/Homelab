@@ -47,7 +47,7 @@ spec:
           valueFrom:
             secretKeyRef:
               name: telegraf-secrets
-              key: influx-bucket  
+              key: influx-bucket
        volumeMounts:
         - name: config
           mountPath: /etc/telegraf/telegraf.conf
