@@ -1,0 +1,50 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: homelab-ingress
+  namespace: monitoring
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true" 
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - grafana.joshdarcy.xyz
+    - influxdb.joshdarcy.xyz
+    - argo.joshdarcy.xyz
+    secretName: joshdarcy-wildcard-tls
+  rules:
+  - host: grafana.joshdarcy.xyz
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: grafana
+            port:
+              number: 80
+
+  - host: influxdb.joshdarcy.xyz
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: influxdb
+            port:
+              number: 8086
+
+  - host: argo.joshdarcy.xyz
+    http:
+     paths:
+     - path: /
+       pathType: Prefix
+       backend:
+         service:
+          name: argocd
+          port:
+            number: 443
