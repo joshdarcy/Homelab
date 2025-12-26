@@ -1,7 +1,0 @@
-apiVersion: projectcalico.org/v3
-kind: BGPPeer
-metadata:
-  name: mikrotik-router
-spec:
-  peerIP: 192.168.49.254
-  asNumber: 64512
