@@ -4,6 +4,8 @@ kind: Deployment
 metadata:
   name: telegraf
   namespace: monitoring
+  labels:
+    app: telegraf
 spec:
   replicas: 1
   selector:
@@ -17,7 +19,8 @@ spec:
       containers:
       - name: telegraf
         image: telegraf:latest
-      env:
+        # FIXED: 'env' is now indented to align with 'image'
+        env:
         - name: PROXMOX_TOKEN
           valueFrom:
             secretKeyRef:
@@ -48,11 +51,12 @@ spec:
             secretKeyRef:
               name: telegraf-secrets
               key: influx-bucket
-       volumeMounts:
+        volumeMounts:
         - name: config
           mountPath: /etc/telegraf/telegraf.conf
           subPath: telegraf.conf
+
       volumes:
       - name: config
         configMap:
-          name: config
+          name: telegraf-config
