@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
-        mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+        mermaid.initialize({ startOnLoad: true, theme: 'dark', securityLevel: 'loose' });
     </script>
 </head>
 <body>
@@ -40,24 +40,31 @@
              <a href="https://github.com/joshdarcy/homelab" class="card github">
                 <div class="icon"><i class="fab fa-github"></i></div>
                 <h3>GitHub</h3>
-                <p>Learn about my homelab here!</p>
+                <p>Infrastructure as Code</p>
             </a>
         </div>
+
+        <div class="architecture">
+            <h2>Infrastructure Architecture</h2>
+            <div class="mermaid">
+                %%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true }}}%%
+                graph LR
+                    User((Recruiter)) -->|HTTPS| CF[Cloudflare]
+                    CF -->|443| Router[MikroTik]
+                    Router -->|NAT| Node[K8s Master]
+                    subgraph Kubernetes Cluster
+                        Node -->|HostNet| Ingress[Nginx]
+                        Ingress -->|Route| Svc[Svc]
+                        Svc -->|80| Pod[Pod]
+                    end
+            </div>
+        </div>
+
+        <footer>
+            <p>Deployed via Kubernetes • Build: <span id="git-hash">LOCAL-DEV</span></p>
+        </footer>
     </div>
-   <div class="architecture">
-    <h2>Infrastructure Architecture</h2>
-    <div class="mermaid">
-        graph LR
-            User((Recruiter)) -->|HTTPS| CF[Cloudflare DNS]
-            CF -->|443| Router[MikroTik Router]
-            Router -->|NAT| Node[K8s Master Node]
-            subgraph Kubernetes Cluster
-                Node -->|HostNetwork| Ingress[Nginx Ingress]
-                Ingress -->|Routing| Svc[Landing Page Svc]
-                Svc -->|Port 80| Pod[Nginx Container]
-            end
-    </div>
-</div>
+
     <script>
         const hour = new Date().getHours();
         const greetingElement = document.getElementById('greeting');
@@ -67,7 +74,4 @@
         else greetingElement.innerText = "Good Evening";
     </script>
 </body>
-<footer>
-    <p>Deployed via Kubernetes • Build: <span id="git-hash">LOCAL-DEV</span></p>
-</footer>
 </html>

@@ -18,6 +18,6 @@ spec:
     spec:
       containers:
       - name: web
-        image: joshdarcy/homelab-landing:v2
+        image: joshdarcy/homelab-landing:v3
         ports:
         - containerPort: 80

@@ -63,3 +63,32 @@ p { color: var(--text-sub); margin-top: 0; }
 .card p { font-size: 0.9rem; color: var(--text-sub); }
 
 .github .icon { color: #fff; }
+
+.architecture {
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid #333;
+}
+
+.architecture h2 {
+    font-size: 1.5rem;
+    color: var(--text-sub);
+    margin-bottom: 2rem;
+}
+
+.mermaid {
+    display: flex;
+    justify-content: center;
+    background-color: var(--card-bg); 
+    padding: 1rem;
+    border-radius: 12px;
+    border: 1px solid #333;
+    overflow-x: auto; 
+}
+
+footer {
+    margin-top: 3rem;
+    color: var(--text-sub);
+    font-size: 0.8rem;
+    opacity: 0.6;
+}
