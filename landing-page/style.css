@@ -1,0 +1,65 @@
+:root {
+    --bg-color: #121212;
+    --card-bg: #1e1e1e;
+    --text-main: #ffffff;
+    --text-sub: #b3b3b3;
+    --accent: #007bff;
+    --hover-bg: #2d2d2d;
+}
+
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.container {
+    text-align: center;
+    max-width: 1200px;
+    width: 90%;
+}
+
+header {
+    margin-bottom: 3rem;
+}
+
+h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
+p { color: var(--text-sub); margin-top: 0; }
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.card {
+    background-color: var(--card-bg);
+    padding: 2rem;
+    border-radius: 12px;
+    text-decoration: none;
+    color: var(--text-main);
+    transition: transform 0.2s, background-color 0.2s;
+    border: 1px solid #333;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    background-color: var(--hover-bg);
+    border-color: var(--accent);
+}
+
+.icon {
+    font-size: 2.5rem;
+    color: var(--accent);
+    margin-bottom: 1rem;
+}
+
+.card h3 { margin: 0; font-size: 1.25rem; }
+.card p { font-size: 0.9rem; color: var(--text-sub); }
+
+.github .icon { color: #fff; }
