@@ -21,7 +21,7 @@ All applications in this repository are pushed automatically by ArgoCD.
 - [ ] Back-end & API: Build out a website back-end database and queriable API
 
 ---
-## 🏗️ Architecture
+## Architecture
 Traffic enters the cluster via Cloudflare DNS, passing through a MikroTik edge router to the Kubernetes Ingress Controller (running in `HostNetwork` mode for bare-metal performance).
 
 ```mermaid
