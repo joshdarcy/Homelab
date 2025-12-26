@@ -17,7 +17,38 @@ spec:
       containers:
       - name: telegraf
         image: telegraf:latest
-        volumeMounts:
+      env:
+        - name: PROXMOX_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: telegraf-secrets
+              key: proxmox-token
+        - name: PROXMOX_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: telegraf-secrets
+              key: proxmox-secret
+        - name: SNMP_COMMUNITY
+          valueFrom:
+            secretKeyRef:
+              name: telegraf-secrets
+              key: snmp-community
+        - name: INFLUX_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: telegraf-secrets
+              key: influx-token
+        - name: INFLUX_ORG
+          valueFrom:
+            secretKeyRef:
+              name: telegraf-secrets
+              key: influx-org
+        - name: INFLUX_BUCKET
+          valueFrom:
+            secretKeyRef:
+              name: telegraf-secrets
+              key: influx-bucket  
+       volumeMounts:
         - name: config
           mountPath: /etc/telegraf/telegraf.conf
           subPath: telegraf.conf

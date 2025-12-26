@@ -10,10 +10,11 @@ data:
       interval = "10s"
       hostname = "k8s-telegraf"
 
-    [[outputs.influxdb]]
+    [[outputs.influxdb_v2]]
       urls = ["http://influxdb.monitoring.svc.cluster.local:8086"]
-      database = "telegraf"
-      skip_database_creation = false
+      token = "${INFLUX_TOKEN}"
+      organization = "${INFLUX_ORG}"
+      bucket = "${INFLUX_BUCKET}"
 
     [[inputs.net]]
     [[inputs.netstat]]
@@ -22,3 +23,18 @@ data:
     [[inputs.ping]]
       urls = ["1.1.1.1", "8.8.8.8"]
       count = 4
+
+    [[inputs.proxmox]]
+      base_url = "https://192.168.49.220:8006/api2/json"
+      api_token = "${PROXMOX_TOKEN}"
+      token_secret = "${PROXMOX_SECRET}"
+      insecure_skip_verify = true
+      response_timeout = "5s"
+
+
+    [[inputs.snmp]]
+      agents = ["192.168.49.1:161"]
+      version = 2
+      community = "${SNMP_COMMUNITY}" 
+      interval = "60s"
+      timeout = "10s"
