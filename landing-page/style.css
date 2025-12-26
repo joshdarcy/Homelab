@@ -64,31 +64,33 @@ p { color: var(--text-sub); margin-top: 0; }
 
 .github .icon { color: #fff; }
 
-.architecture {
+.tech-stack {
     margin-top: 4rem;
-    padding-top: 2rem;
-    border-top: 1px solid #333;
+    text-align: center;
+    opacity: 0.8;
 }
 
-.architecture h2 {
-    font-size: 1.5rem;
+.tech-stack h3 {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
     color: var(--text-sub);
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
 }
 
-.mermaid {
+.stack-icons {
     display: flex;
     justify-content: center;
-    background-color: var(--card-bg); 
-    padding: 1rem;
-    border-radius: 12px;
-    border: 1px solid #333;
-    overflow-x: auto; 
+    gap: 2rem;
+    font-size: 2rem;
+    color: var(--text-sub);
 }
 
-footer {
-    margin-top: 3rem;
-    color: var(--text-sub);
-    font-size: 0.8rem;
-    opacity: 0.6;
+.stack-icons i {
+    transition: color 0.3s, transform 0.3s;
+}
+
+.stack-icons i:hover {
+    color: var(--accent);
+    transform: scale(1.2);
 }

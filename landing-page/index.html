@@ -6,10 +6,6 @@
     <title>Josh's Homelab</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <script type="module">
-        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
-        mermaid.initialize({ startOnLoad: true, theme: 'dark', securityLevel: 'loose' });
-    </script>
 </head>
 <body>
     <div class="container">
@@ -40,23 +36,17 @@
              <a href="https://github.com/joshdarcy/homelab" class="card github">
                 <div class="icon"><i class="fab fa-github"></i></div>
                 <h3>GitHub</h3>
-                <p>Infrastructure as Code</p>
+                <p>Learn more about my homelab here!</p>
             </a>
         </div>
 
-        <div class="architecture">
-            <h2>Infrastructure Architecture</h2>
-            <div class="mermaid">
-                %%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true }}}%%
-                graph LR
-                    User((Recruiter)) -->|HTTPS| CF[Cloudflare]
-                    CF -->|443| Router[MikroTik]
-                    Router -->|NAT| Node[K8s Master]
-                    subgraph Kubernetes Cluster
-                        Node -->|HostNet| Ingress[Nginx]
-                        Ingress -->|Route| Svc[Svc]
-                        Svc -->|80| Pod[Pod]
-                    end
+        <div class="tech-stack">
+            <h3>Powered By</h3>
+            <div class="stack-icons">
+                <i class="fab fa-docker" title="Docker"></i>
+                <i class="fas fa-dharmachakra" title="Kubernetes"></i> <i class="fab fa-linux" title="Linux"></i>
+                <i class="fas fa-server" title="Proxmox"></i>
+                <i class="fab fa-cloudflare" title="Cloudflare"></i>
             </div>
         </div>
 
