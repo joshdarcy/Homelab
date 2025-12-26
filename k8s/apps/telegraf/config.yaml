@@ -27,7 +27,7 @@ data:
     [[inputs.proxmox]]
       base_url = "https://192.168.49.220:8006/api2/json"
       api_token = "${PROXMOX_TOKEN}"
-      token_secret = "${PROXMOX_SECRET}"
+      token = "${PROXMOX_SECRET}"
       insecure_skip_verify = true
       response_timeout = "5s"
 
