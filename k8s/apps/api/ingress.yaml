@@ -8,6 +8,9 @@ metadata:
   nginx.ingress.kubernetes.io/ssl-redirect: "true"
 spec:
   ingressClassName: nginx
+  tls:
+  - hosts:
+    - api.joshdarcy.xyz
   rules:
     - host: api.joshdarcy.xyz
       secretName: api-joshdarcy-tls
