@@ -8,14 +8,13 @@ My Homelab & Kubernetes Platform
 ![Grafana](https://img.shields.io/badge/grafana-%23F46800.svg?style=for-the-badge&logo=grafana&logoColor=white)
 
 ## Overview
-Welcome to my homelab! I'm documenting my transition from traditional networking and virtualisation to a modern, cloud-native Kubernetes platform.
-
+Welcome to my homelab! I'm documenting my learning experience transitioning from traditional networking and virtualisation to a modern, cloud-native Kubernetes platform.
 The goal of this lab is to simulate a production-grade microservices environment with GitOps, High Availability and Modern Observability (while keeping power and noise to a minimum). 
 All applications in this repository are pushed automatically by ArgoCD.
 
 ### Current Goals:
-- [x] GitOps Implementation: Migrated manual installs to ArgoCD applications
-- [x] Modern Observability: Implement Prometheus and InfluxDB with Grafana for cluster and network monitoring
+- [x] GitOps Implementation: Migrate manual installs to ArgoCD applications
+- [x] Modern Observability: Implement Prometheus, InfluxDB and Loki with Grafana for cluster and network monitoring and logging
 - [x] Ingress & TLS: Automate Let's Encrypt certificates via cert-manager and CloudFlare
 - [ ] Custom Operators: Develop a custom Go operator to manage lab resources
 - [ ] Back-end & API: Build out a website back-end database and queriable API
@@ -53,26 +52,26 @@ graph LR
 ```
 
 ### Compute:
-Intel NUC (NUC7i5DNHE)
+**Intel NUC (NUC7i5DNHE)**
 * CPU: Intel i5-7300 2.60 GHz CPU (4 Core)
 * RAM: 8GB DDR4 RAM
 * Role: 1 x RKE2 Master Node & 1 x RKE2 Worker Node
 
-Raspberry Pi 4
+**Raspberry Pi 4**
 * CPU: Broadcom BCM2711 1.80 GHz CPU (4 Core)
 * RAM: 4GB DDR4 RAM
 * Role: 2 x RKE2 Worker Node
 
 ### Dashboards
-Custom-built dashboard to access internal services, deployed via Docker & k8s
+**Custom-built dashboard to access internal services, deployed via Docker & k8s**
 <img width="1384" height="608" alt="image" src="https://github.com/user-attachments/assets/c83180ed-23aa-4149-b175-1255abd4130b" />
 
 Observability (Grafana)
-Real-time Proxmox Monitoring
-<img width="1586" height="794" alt="image" src="https://github.com/user-attachments/assets/85ab657f-4bf8-4e68-be29-566de008032b" />
+**Real-time Proxmox Monitoring**
+<img width="1586" height="kubectl apply -f k8s/apps/landing-page/probe.yaml794" alt="image" src="https://github.com/user-attachments/assets/85ab657f-4bf8-4e68-be29-566de008032b" />
 
-Real-time VM Monitoring
+**Real-time VM Monitoring**
 <img width="1586" height="778" alt="image" src="https://github.com/user-attachments/assets/c43ca4fe-e691-410a-9275-db4558dd7fc6" />
 
-Real-time Cluster Monitoring
+**Real-time Cluster Monitoring**
 <img width="1591" height="764" alt="image" src="https://github.com/user-attachments/assets/8c217c34-3b95-4ad7-8b2c-549a35ca52f3" />
