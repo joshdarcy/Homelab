@@ -65,10 +65,14 @@ Raspberry Pi 4
 
 ### Dashboards
 Custom-built dashboard to access internal services, deployed via Docker & k8s
+<img width="1384" height="608" alt="image" src="https://github.com/user-attachments/assets/c83180ed-23aa-4149-b175-1255abd4130b" />
 
 Observability (Grafana)
 Real-time Proxmox Monitoring
+<img width="1586" height="794" alt="image" src="https://github.com/user-attachments/assets/85ab657f-4bf8-4e68-be29-566de008032b" />
 
 Real-time VM Monitoring
+<img width="1586" height="778" alt="image" src="https://github.com/user-attachments/assets/c43ca4fe-e691-410a-9275-db4558dd7fc6" />
 
 Real-time Cluster Monitoring
+<img width="1591" height="764" alt="image" src="https://github.com/user-attachments/assets/8c217c34-3b95-4ad7-8b2c-549a35ca52f3" />
