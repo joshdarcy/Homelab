@@ -11,7 +11,7 @@
     <div class="container">
         <header>
             <h1 id="greeting">Welcome</h1>
-            <p>Kubernetes Control Plane</p>
+            <p>My Homelab - Kubernetes Control Plane</p>
         </header>
 
         <div class="grid">
@@ -33,7 +33,7 @@
              <a href="https://github.com/joshdarcy/homelab" class="card github">
                 <div class="icon"><i class="fab fa-github"></i></div>
                 <h3>GitHub</h3>
-                <p>Source</p>
+                <p>Learn More Here!</p>
             </a>
         </div>
 
@@ -44,6 +44,7 @@
                 <button onclick="showRandomFact()" class="refresh-btn" title="Refresh">
                     <i class="fas fa-redo-alt"></i>
                 </button>
+	        <p class="api-disclaimer">Live fetched via FastAPI from PostgreSQL...</p>
             </div>
         </div>
 
@@ -101,9 +102,9 @@
 
         const hour = new Date().getHours();
         const greetingElement = document.getElementById('greeting');
-        if (hour < 12) greetingElement.innerText = "good morning";
-        else if (hour < 18) greetingElement.innerText = "good afternoon";
-        else greetingElement.innerText = "good evening";
+        if (hour < 12) greetingElement.innerText = "Good Morning";
+        else if (hour < 18) greetingElement.innerText = "Good Afternoon";
+        else greetingElement.innerText = "Good Evening";
 
         initData();
     </script>

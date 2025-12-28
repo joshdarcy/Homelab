@@ -3,7 +3,7 @@
     --card-bg: #2c2e31;
     --text-main: #d1d0c5;
     --text-sub: #646669;
-    --accent: #e2b714;
+    --accent: #007bff;
     --hover-bg: #45474a;
 }
 
@@ -118,6 +118,15 @@ p { color: var(--text-sub); margin-top: 0; }
     color: var(--text-main);
     background-color: rgba(255,255,255,0.1) !important;
     transform: rotate(90deg);
+}
+
+.api-disclaimer {
+    font-family: "Roboto Mono", monospace;
+    font-size: 0.75rem;
+    color: var(--text-sub);
+    margin-top: 1rem;
+    font-style: italic;
+    opacity: 0.6;
 }
 
 .tech-stack {
