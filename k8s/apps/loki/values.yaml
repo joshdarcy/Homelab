@@ -2,6 +2,9 @@ loki:
   enabled: true
   isDefault: false
 
+  image:
+    tag: 2.9.10
+
   securityContext:
     fsGroup: 10001
     runAsGroup: 10001
