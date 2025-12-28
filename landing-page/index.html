@@ -40,18 +40,15 @@
             </a>
         </div>
 
-	<div class="api-section">
-            <h2><i class="fas fa-server" style="color: var(--accent); margin-right: 10px;"></i>Homelab Status</h2>
-            <p>Live data from PostgreSQL via FastAPI</p>
+        <div class="api-section">
+            <h2><i class="fas fa-terminal" style="color: var(--accent); margin-right: 10px;"></i>System Status Log</h2>
+            <p style="margin-bottom: 20px;">Live fetching system attributes from PostgreSQL...</p>
 
-            <div class="api-controls">
-                <input type="text" id="newItemTitle" class="api-input" placeholder="Add a new task or note...">
-                <button onclick="createItem()" class="api-btn">Add</button>
+            <div id="terminal-window">
+                <ul id="database-items">
+                    <li><span class="blink">_</span> Initializing connection...</li>
+                </ul>
             </div>
-
-            <ul id="database-items">
-                <li><i class="fas fa-spinner fa-spin"></i> Connecting to API...</li>
-            </ul>
         </div>
 
         <div class="tech-stack">
@@ -70,73 +67,42 @@
     </div>
 
     <script>
-        const hour = new Date().getHours();
-        const greetingElement = document.getElementById('greeting');
-        
-        if (hour < 12) greetingElement.innerText = "Good Morning";
-        else if (hour < 18) greetingElement.innerText = "Good Afternoon";
-        else greetingElement.innerText = "Good Evening";
-    </script>
-
-    <script>
         const API_URL = "https://api.joshdarcy.xyz/items";
 
         async function loadItems() {
             const list = document.getElementById('database-items');
+            
             try {
                 const response = await fetch(API_URL);
-                if (!response.ok) throw new Error("API Unreachable");
+                if (!response.ok) throw new Error("Connection Refused");
                 
                 const data = await response.json();
-                list.innerHTML = ''; 
-
-                if (data.length === 0) {
-                    list.innerHTML = '<li style="justify-content: center; color: var(--text-sub);">Database is empty. Add something!</li>';
-                    return;
-                }
+                list.innerHTML = ''; // Clear loading text
 
                 data.forEach(item => {
                     const li = document.createElement('li');
+                    // Format: > TITLE
+                    //           Description...
                     li.innerHTML = `
-                        <span>${item.title}</span>
-                        <span class="item-desc">${item.description || ''}</span>
+                        <span>> ${item.title}</span>
+                        <span class="item-desc">${item.description}</span>
                     `;
                     list.appendChild(li);
                 });
             } catch (error) {
-                list.innerHTML = `<li style="color: #ff6b6b; justify-content: center;"><i class="fas fa-exclamation-circle"></i>&nbsp; API Offline</li>`;
+                list.innerHTML = `<li style="color: #ff5555;">[ERROR] Could not connect to API Service.</li>`;
             }
         }
 
-        async function createItem() {
-            const input = document.getElementById('newItemTitle');
-            const title = input.value;
-            if (!title) return;
-
-            try {
-                const btn = document.querySelector('.api-btn');
-                const originalText = btn.innerText;
-                btn.innerText = "...";
-                
-                await fetch(API_URL, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ 
-                        title: title, 
-                        description: new Date().toLocaleTimeString() // Auto-add timestamp
-                    })
-                });
-                
-                input.value = ""; 
-                loadItems(); // Refresh list
-                btn.innerText = originalText;
-            } catch (error) {
-                alert("Failed to save to database");
-            }
-        }
-
-        // Load data when page opens
+        // Load immediately
         loadItems();
+        
+        // Dynamic greeting (kept from your original code)
+        const hour = new Date().getHours();
+        const greetingElement = document.getElementById('greeting');
+        if (hour < 12) greetingElement.innerText = "Good Morning";
+        else if (hour < 18) greetingElement.innerText = "Good Afternoon";
+        else greetingElement.innerText = "Good Evening";
     </script>
 
 </body>
