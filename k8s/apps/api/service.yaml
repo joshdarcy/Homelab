@@ -1,0 +1,12 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: homelab-api
+  namespace: default
+spec:
+  ports:
+  - port: 80
+    targetPort: 8000
+  selector:
+    app: homelab-api

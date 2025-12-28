@@ -1,0 +1,27 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: homelab-api
+  namespace: database
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: homelab-api
+  template:
+    metadata:
+      labels:
+        app: homelab-api
+    spec:
+      containers:
+        - name: api
+          image: joshdarcy/homelab-api:v2
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - secretRef:
+                name: postgres-secret
+          env:
+            - name: DB_HOST
+              value: "postgres"

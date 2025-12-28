@@ -1,0 +1,19 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: homelab-api-ingress
+  namespace: database
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: api.joshdarcy.xyz
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: homelab-api
+                port:
+                  number: 80
