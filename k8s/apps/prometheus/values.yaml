@@ -16,6 +16,11 @@ prometheusOperator:
         memory: 50Mi
 
 prometheus:
+
+  service:
+    type: NodePort
+    nodePort: 30090
+
   prometheusSpec:
     retention: 30d
     securityContext:
