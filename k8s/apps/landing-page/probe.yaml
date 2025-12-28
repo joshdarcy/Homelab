@@ -4,7 +4,7 @@ metadata:
   name: landing-page-uptime
   namespace: monitoring
   labels:
-    release: prometheus
+    release: prometheus-stack
 spec:
   jobName: landing-page-check
   prober:
