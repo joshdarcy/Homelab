@@ -2,6 +2,12 @@ loki:
   enabled: true
   isDefault: false
 
+  securityContext:
+    fsGroup: 10001
+    runAsGroup: 10001
+    runAsNonRoot: true
+    runAsUser: 10001
+
   persistence:
     enabled: true
     storageClassName: local-path
@@ -17,4 +23,4 @@ loki:
 promtail:
   enabled: true
   config:
-    lokiAddress: http://loki:3100/loki/api/v1/push
+    lokiAddress: http://loki-stack:3100/loki/api/v1/push
