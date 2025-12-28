@@ -20,6 +20,6 @@ spec:
         kubernetes.io/arch: amd64
       containers:
       - name: web
-        image: joshdarcy/homelab-landing:v9
+        image: joshdarcy/homelab-landing:v10
         ports:
         - containerPort: 80
