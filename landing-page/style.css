@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500&display=swap');
+
 :root {
     --bg-color: #121212;
     --card-bg: #1e1e1e;
@@ -65,73 +67,66 @@ p { color: var(--text-sub); margin-top: 0; }
 .github .icon { color: #fff; }
 
 .api-section {
-    background-color: #0d0d0d;
-    border: 1px solid #333;
-    border-radius: 8px;
-    padding: 2rem;
-    margin-top: 3rem;
-    max-width: 800px;
+    margin-top: 4rem;
+    max-width: 900px;
     margin-left: auto;
     margin-right: auto;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-    text-align: left;
-}
-
-.api-section h2 {
     text-align: center;
-    color: #fff;
-    font-family: 'Courier New', monospace;
+    background: transparent;
+    padding: 0 20px;
 }
 
-.api-section p {
-    text-align: center;
-    color: #666;
-    font-size: 0.9rem;
-}
-
-#terminal-window {
-    background-color: #000;
-    border-radius: 4px;
-    padding: 15px;
-    border: 1px solid #222;
-    font-family: 'Courier New', Courier, monospace;
-}
-
-#database-items {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-#database-items li {
-    padding: 8px 0;
-    border-bottom: 1px solid #1a1a1a;
-    color: #00ff00;
-    font-size: 0.95rem;
+.fact-container {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 150px;
+    font-family: 'Roboto Mono', monospace;
 }
 
-#database-items li:last-child {
-    border-bottom: none;
+.fact-label {
+    font-size: 0.9rem;
+    color: var(--accent);
+    margin-bottom: 1rem;
+    letter-spacing: 1px;
+    font-weight: 500;
+    opacity: 0.8;
 }
 
-.item-desc {
-    color: #b3b3b3; 
-    font-size: 0.9em;
-    margin-top: 4px;
-    padding-left: 15px;
-    border-left: 2px solid #333; 
+.fact-text {
+    font-size: 1.5rem;
+    color: #d1d0c5;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    max-width: 80%;
 }
 
-.blink {
-    animation: blinker 1s linear infinite;
+.refresh-btn {
+    background: transparent;
+    border: none;
+    color: #646669;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 10px;
+    border-radius: 50%;
 }
 
-@keyframes blinker {
-    50% { opacity: 0; }
+.refresh-btn:hover {
+    color: var(--text-main);
+    background-color: rgba(255,255,255,0.05);
+    transform: rotate(90deg);
 }
 
+.fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
 .tech-stack {
     margin-top: 4rem;
     text-align: center;

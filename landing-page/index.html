@@ -41,16 +41,16 @@
         </div>
 
         <div class="api-section">
-            <h2><i class="fas fa-terminal" style="color: var(--accent); margin-right: 10px;"></i>System Status Log</h2>
-            <p style="margin-bottom: 20px;">Live fetching system attributes from PostgreSQL...</p>
-
-            <div id="terminal-window">
-                <ul id="database-items">
-                    <li><span class="blink">_</span> Initializing connection...</li>
-                </ul>
+            <div id="fact-display" class="fact-container">
+                <span class="fact-label">SYSTEM STATUS</span>
+                <p id="current-fact" class="fact-text">Loading system metrics...</p>
+                
+                <button onclick="showRandomFact()" class="refresh-btn" title="Load new fact">
+                    <i class="fas fa-redo-alt"></i>
+                </button>
             </div>
         </div>
-
+        
         <div class="tech-stack">
             <h3>Powered By</h3>
             <div class="stack-icons">
@@ -66,38 +66,51 @@
         </footer>
     </div>
 
-    <script>
+<script>
         const API_URL = "https://api.joshdarcy.xyz/items";
+        let cachedData = [];
 
-        async function loadItems() {
-            const list = document.getElementById('database-items');
+        async function initData() {
+            const textBox = document.getElementById('current-fact');
             
             try {
                 const response = await fetch(API_URL);
-                if (!response.ok) throw new Error("Connection Refused");
+                if (!response.ok) throw new Error("API Error");
                 
-                const data = await response.json();
-                list.innerHTML = ''; // Clear loading text
+                cachedData = await response.json();
+                
+                if (cachedData.length === 0) {
+                    textBox.innerText = "No system data available.";
+                    return;
+                }
 
-                data.forEach(item => {
-                    const li = document.createElement('li');
-                    // Format: > TITLE
-                    //           Description...
-                    li.innerHTML = `
-                        <span>> ${item.title}</span>
-                        <span class="item-desc">${item.description}</span>
-                    `;
-                    list.appendChild(li);
-                });
+                showRandomFact();
+
             } catch (error) {
-                list.innerHTML = `<li style="color: #ff5555;">[ERROR] Could not connect to API Service.</li>`;
+                textBox.innerText = "System API Offline";
+                textBox.style.color = "#ff6b6b";
             }
         }
 
-        // Load immediately
-        loadItems();
+        function showRandomFact() {
+            if (cachedData.length === 0) return;
+
+            const label = document.querySelector('.fact-label');
+            const textBox = document.getElementById('current-fact');
+            
+            const randomIndex = Math.floor(Math.random() * cachedData.length);
+            const item = cachedData[randomIndex];
+
+            textBox.classList.remove('fade-in');
+            void textBox.offsetWidth; // Force reflow (magic trick to restart animation)
+            textBox.classList.add('fade-in');
+
+            label.innerText = `> ${item.title}`; 
+            textBox.innerText = item.description;
+        }
+
+        initData();
         
-        // Dynamic greeting (kept from your original code)
         const hour = new Date().getHours();
         const greetingElement = document.getElementById('greeting');
         if (hour < 12) greetingElement.innerText = "Good Morning";
