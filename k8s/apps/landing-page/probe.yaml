@@ -14,4 +14,7 @@ spec:
     staticConfig:
       static:
         - https://joshdarcy.xyz
+        - https://www.google.com
+        - https://www.cloudflare.com
+        - https://1.1.1.1
   interval: 15s
