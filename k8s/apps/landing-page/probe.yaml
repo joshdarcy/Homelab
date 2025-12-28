@@ -1,0 +1,17 @@
+apiVersion: monitoring.coreos.com/v1
+kind: Probe
+metadata:
+  name: landing-page-uptime
+  namespace: monitoring
+  labels:
+    release: prometheus
+spec:
+  jobName: landing-page-check
+  prober:
+    url: blackbox-exporter-prometheus-blackbox-exporter.monitoring.svc:9115
+  module: http_2xx
+  targets:
+    staticConfig:
+      static:
+        - https://joshdarcy.xyz
+  interval: 15s
