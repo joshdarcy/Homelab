@@ -43,14 +43,13 @@
         <div class="api-section">
             <div id="fact-display" class="fact-container">
                 <span class="fact-label">SYSTEM STATUS</span>
-                <p id="current-fact" class="fact-text">Loading system metrics...</p>
-                
-                <button onclick="showRandomFact()" class="refresh-btn" title="Load new fact">
+                <p id="current-fact" class="fact-text">Fetching metrics...</p>
+                <button onclick="showRandomFact()" class="refresh-btn" title="Refresh">
                     <i class="fas fa-redo-alt"></i>
                 </button>
             </div>
         </div>
-        
+
         <div class="tech-stack">
             <h3>Powered By</h3>
             <div class="stack-icons">
@@ -66,19 +65,19 @@
         </footer>
     </div>
 
-<script>
+    <script>
         const API_URL = "https://api.joshdarcy.xyz/items";
         let cachedData = [];
 
         async function initData() {
             const textBox = document.getElementById('current-fact');
-            
+
             try {
                 const response = await fetch(API_URL);
                 if (!response.ok) throw new Error("API Error");
-                
+
                 cachedData = await response.json();
-                
+
                 if (cachedData.length === 0) {
                     textBox.innerText = "No system data available.";
                     return;
@@ -97,26 +96,25 @@
 
             const label = document.querySelector('.fact-label');
             const textBox = document.getElementById('current-fact');
-            
+
             const randomIndex = Math.floor(Math.random() * cachedData.length);
             const item = cachedData[randomIndex];
 
             textBox.classList.remove('fade-in');
-            void textBox.offsetWidth; // Force reflow (magic trick to restart animation)
+            void textBox.offsetWidth;
             textBox.classList.add('fade-in');
 
-            label.innerText = `> ${item.title}`; 
+            label.innerText = `> ${item.title}`;
             textBox.innerText = item.description;
         }
 
         initData();
-        
+
         const hour = new Date().getHours();
         const greetingElement = document.getElementById('greeting');
         if (hour < 12) greetingElement.innerText = "Good Morning";
         else if (hour < 18) greetingElement.innerText = "Good Afternoon";
         else greetingElement.innerText = "Good Evening";
     </script>
-
 </body>
 </html>
