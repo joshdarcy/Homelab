@@ -11,39 +11,36 @@
     <div class="container">
         <header>
             <h1 id="greeting">Welcome</h1>
-            <p>My Homelab - Kubernetes Cluster Control Plane</p>
+            <p>Kubernetes Control Plane</p>
         </header>
 
         <div class="grid">
             <a href="https://grafana.joshdarcy.xyz" class="card">
                 <div class="icon"><i class="fas fa-chart-bar"></i></div>
                 <h3>Grafana</h3>
-                <p>Metrics & Observability</p>
+                <p>Metrics</p>
             </a>
-
             <a href="https://argo.joshdarcy.xyz" class="card">
                 <div class="icon"><i class="fas fa-rocket"></i></div>
                 <h3>ArgoCD</h3>
-                <p>GitOps Deployments</p>
+                <p>GitOps</p>
             </a>
-
             <a href="https://influxdb.joshdarcy.xyz" class="card">
                 <div class="icon"><i class="fas fa-database"></i></div>
                 <h3>InfluxDB</h3>
-                <p>Time Series Data</p>
+                <p>Storage</p>
             </a>
-
              <a href="https://github.com/joshdarcy/homelab" class="card github">
                 <div class="icon"><i class="fab fa-github"></i></div>
                 <h3>GitHub</h3>
-                <p>Learn more about my homelab here!</p>
+                <p>Source</p>
             </a>
         </div>
 
         <div class="api-section">
             <div id="fact-display" class="fact-container">
-                <span class="fact-label">SYSTEM STATUS</span>
-                <p id="current-fact" class="fact-text">Fetching metrics...</p>
+                <span class="fact-label">system status</span>
+                <p id="current-fact" class="fact-text">Waiting for metrics...</p>
                 <button onclick="showRandomFact()" class="refresh-btn" title="Refresh">
                     <i class="fas fa-redo-alt"></i>
                 </button>
@@ -51,17 +48,17 @@
         </div>
 
         <div class="tech-stack">
-            <h3>Powered By</h3>
             <div class="stack-icons">
-                <i class="fab fa-docker" title="Docker"></i>
-                <i class="fas fa-dharmachakra" title="Kubernetes"></i> <i class="fab fa-linux" title="Linux"></i>
-                <i class="fas fa-server" title="Proxmox"></i>
-                <i class="fab fa-cloudflare" title="Cloudflare"></i>
+                <i class="fab fa-docker"></i>
+                <i class="fas fa-dharmachakra"></i>
+                <i class="fab fa-linux"></i>
+                <i class="fas fa-server"></i>
+                <i class="fab fa-cloudflare"></i>
             </div>
         </div>
 
         <footer>
-            <p>Deployed via Kubernetes • Build: <span id="git-hash">LOCAL-DEV</span></p>
+            <p>build: <span id="git-hash">LOCAL-DEV</span></p>
         </footer>
     </div>
 
@@ -71,50 +68,44 @@
 
         async function initData() {
             const textBox = document.getElementById('current-fact');
-
             try {
                 const response = await fetch(API_URL);
                 if (!response.ok) throw new Error("API Error");
-
                 cachedData = await response.json();
-
+                
                 if (cachedData.length === 0) {
-                    textBox.innerText = "No system data available.";
+                    textBox.innerText = "System Normal (No Data)";
                     return;
                 }
-
                 showRandomFact();
-
             } catch (error) {
-                textBox.innerText = "System API Offline";
-                textBox.style.color = "#ff6b6b";
+                textBox.innerText = "Status: API Offline";
+                textBox.style.color = "#e2b714";
             }
         }
 
         function showRandomFact() {
             if (cachedData.length === 0) return;
-
             const label = document.querySelector('.fact-label');
             const textBox = document.getElementById('current-fact');
+            
+            const item = cachedData[Math.floor(Math.random() * cachedData.length)];
 
-            const randomIndex = Math.floor(Math.random() * cachedData.length);
-            const item = cachedData[randomIndex];
-
-            textBox.classList.remove('fade-in');
-            void textBox.offsetWidth;
-            textBox.classList.add('fade-in');
-
-            label.innerText = `> ${item.title}`;
-            textBox.innerText = item.description;
+            textBox.style.opacity = 0;
+            setTimeout(() => {
+                label.innerText = `> ${item.title}`;
+                textBox.innerText = item.description;
+                textBox.style.opacity = 1;
+            }, 200);
         }
-
-        initData();
 
         const hour = new Date().getHours();
         const greetingElement = document.getElementById('greeting');
-        if (hour < 12) greetingElement.innerText = "Good Morning";
-        else if (hour < 18) greetingElement.innerText = "Good Afternoon";
-        else greetingElement.innerText = "Good Evening";
+        if (hour < 12) greetingElement.innerText = "good morning";
+        else if (hour < 18) greetingElement.innerText = "good afternoon";
+        else greetingElement.innerText = "good evening";
+
+        initData();
     </script>
 </body>
 </html>
