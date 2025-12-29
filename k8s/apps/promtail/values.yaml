@@ -1,4 +1,6 @@
 ---
+hostNetwork: true
+
 config:
   clients:
     - url: http://loki-stack.monitoring.svc:3100/loki/api/v1/push
@@ -7,7 +9,7 @@ config:
     extraScrapeConfigs: |
       - job_name: syslog
         syslog:
-          listen_address: 0.0.0.0:1514
+          listen_address: 0.0.0.0:30514
           listen_protocol: udp
           labels:
             job: syslog
@@ -16,21 +18,16 @@ config:
             target_label: host
         pipeline_stages:
           - timestamp:
-              source: this_field_does_not_exist
+              source: force_failure
               format: RFC3339
               action_on_failure: fudge
 
-extraPorts:
-  - name: syslog
-    containerPort: 1514
-    protocol: UDP
-    hostPort: 30514
+extraPorts: []
+
+service:
+  enabled: false
+extraObjects: []
 
 extraEnv:
   - name: TZ
     value: "Australia/Brisbane"
-
-service:
-  enabled: false
-
-extraObjects: []
