@@ -14,6 +14,11 @@ config:
         relabel_configs:
           - source_labels: [__syslog_message_hostname]
             target_label: host
+        pipeline_stages:
+          - timestamp:
+              source: force_fail
+              format: RFC3339
+              action_on_failure: fudge
 
 service:
   enabled: true
