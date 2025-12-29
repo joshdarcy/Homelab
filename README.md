@@ -11,7 +11,7 @@ My Homelab & Kubernetes Platform
 Welcome to my homelab! I'm documenting my learning experience transitioning from traditional networking and virtualisation to a modern, cloud-native Kubernetes platform.
 
 ### About Me
-I'm an Operations Engineer at Superloop <img src="https://s3-symbol-logo.tradingview.com/superloop-limited--600.png" height="20" alt="Superloop Logo" /> (ASX: SLC) a challenger telecommunications provider in Australia. In my role as an Operations Engineer, I have a big focus on bridging Network & System Operations with our Development team, implementing Modern Observability tools and maintaining high levels of Site and Platform reliability.
+I'm an Operations Engineer at Superloop <img src="https://s3-symbol-logo.tradingview.com/superloop-limited--600.png" height="20" style="vertical-align:text-bottom" alt="Superloop Logo" /> (**ASX: SLC**) a challenger telecommunications provider in Australia. I focus on implementing Modern Observability stacks and maintaining high levels of network and platform availability.
 
 ### Current Goals
 The primary goal of this lab is to simulate a production-grade microservices environment with GitOps, High Availability and Modern Observability (while keeping power and noise to a minimum). 
@@ -29,31 +29,29 @@ Traffic enters the cluster via Cloudflare Proxy, which is forwarded from my Mikr
 
 ```mermaid
 graph LR
-    %% Styles
-    classDef cloud fill:#f9f9f9,stroke:#333,stroke-width:2px;
-    classDef k8s fill:#326ce5,stroke:#fff,stroke-width:2px,color:#fff;
-    classDef hw fill:#E57000,stroke:#fff,stroke-width:2px,color:#fff;
+    User((Internet)) -->|HTTPS/TLS| CF[Cloudflare Proxy]:::cloud
+    CF -->|Port 443| Router[MikroTik hAP ax3]:::net
 
-    Internet((User)) -->|HTTPS| CF[Cloudflare DNS]
-    CF -->|443| Router[MikroTik hAP ax3]
-    
-    subgraph "Home Network (192.168.49.0/24)"
-        Router -->|NAT| Master[K8s Master Node]:::k8s
+    %% --- Infrastructure Layer ---
+    subgraph "Home Lab Infrastructure"
+        Router -->|NAT 192.168.49.x| Metal[Proxmox Hypervisor]:::hw
         
         subgraph "Kubernetes Cluster (RKE2)"
-            Master -->|HostNetwork| Ingress[Nginx Ingress Controller]:::k8s
-            Ingress -->|Route| Landing[Landing Page]
-            Ingress -->|Route| Grafana[Grafana]
-            Ingress -->|Route| Argo[ArgoCD]
-	    Ingress -->|Route| API[FastAPI]
+            Metal -.->|Hosts| K8sMaster[K8s Control Plane]:::k8s
+            
+            K8sMaster -->|Deploys| Ingress[Nginx Ingress]:::k8s
+            
+            subgraph "Application Layer"
+                Ingress -->|Route| Landing[Landing Page]:::app
+                Ingress -->|Route| Obs[Grafana / Prometheus]:::app
+                Ingress -->|Route| GitOps[ArgoCD]:::app
+                Ingress -->|Route| API[FastAPI Backend]:::app
+            end
         end
-        
-        Master -.->|Metrics| Proxmox[Proxmox Cluster]:::hw
     end
 
-    %% Legend
-    class Master,Ingress k8s
-    class Proxmox hw
+    %% --- Data Flow / Logic ---
+    GitOps -.->|Syncs| K8sMaster
 ```
 
 ### Compute:
@@ -71,7 +69,7 @@ graph LR
 **Custom-built dashboard to access internal services, deployed via Docker & k8s**
 <img width="1815" height="913" alt="image" src="https://github.com/user-attachments/assets/73b7cce9-ac1e-49e9-a2ae-3b89e0cbc2d0" />
 
-Observability (Grafana)
+### Observability (Grafana)
 **Real-time Proxmox Monitoring**
 <img width="1586" height="kubectl apply -f k8s/apps/landing-page/probe.yaml794" alt="image" src="https://github.com/user-attachments/assets/85ab657f-4bf8-4e68-be29-566de008032b" />
 
