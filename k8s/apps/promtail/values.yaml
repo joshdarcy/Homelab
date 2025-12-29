@@ -19,8 +19,7 @@ service:
   type: ClusterIP
 
 extraObjects:
-  - |
-    apiVersion: v1
+  - apiVersion: v1
     kind: Service
     metadata:
       name: promtail-syslog
