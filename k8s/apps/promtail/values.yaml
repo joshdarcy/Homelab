@@ -1,5 +1,8 @@
 ---
+logLevel: info
+
 hostNetwork: false
+extraPorts: []
 
 config:
   clients:
@@ -9,7 +12,7 @@ config:
     extraScrapeConfigs: |
       - job_name: syslog
         syslog:
-          listen_address: ${POD_IP}:1514
+          listen_address: 0.0.0.0:1514
           listen_protocol: udp
           labels:
             job: syslog
@@ -22,6 +25,8 @@ config:
               format: RFC3339
               action_on_failure: fudge
 
+service:
+  enabled: false
 extraObjects:
   - apiVersion: v1
     kind: Service
@@ -42,6 +47,3 @@ extraObjects:
           targetPort: 1514
           nodePort: 30514
           protocol: UDP
-
-extraPorts: []
-extraEnv: []
