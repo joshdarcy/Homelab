@@ -69,7 +69,7 @@ graph LR
 
 ### Dashboards
 **Custom-built dashboard to access internal services, deployed via Docker & k8s**
-<img width="1384" height="608" alt="image" src="https://github.com/user-attachments/assets/c83180ed-23aa-4149-b175-1255abd4130b" />
+<img width="1815" height="913" alt="image" src="https://github.com/user-attachments/assets/73b7cce9-ac1e-49e9-a2ae-3b89e0cbc2d0" />
 
 Observability (Grafana)
 **Real-time Proxmox Monitoring**
@@ -79,4 +79,5 @@ Observability (Grafana)
 <img width="1586" height="778" alt="image" src="https://github.com/user-attachments/assets/c43ca4fe-e691-410a-9275-db4558dd7fc6" />
 
 **Real-time Cluster Monitoring**
+<img width="1600" height="837" alt="image" src="https://github.com/user-attachments/assets/10841670-95c8-42da-afee-14662ffc3c7f" />
 <img width="1591" height="764" alt="image" src="https://github.com/user-attachments/assets/8c217c34-3b95-4ad7-8b2c-549a35ca52f3" />
