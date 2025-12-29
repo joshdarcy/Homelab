@@ -1,0 +1,150 @@
+:root {
+    --bg-color: #323437;
+    --card-bg: #2c2e31;
+    --text-main: #d1d0c5;
+    --text-sub: #646669;
+    --accent: #007bff;
+    --hover-bg: #45474a;
+}
+
+body {
+    margin: 0;
+    font-family: "Roboto Mono", "JetBrains Mono", "Fira Code", Consolas, "Courier New", monospace;
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.container {
+    text-align: center;
+    max-width: 1200px;
+    width: 90%;
+    padding: 2rem 0;
+}
+
+header { margin-bottom: 4rem; }
+h1 { font-size: 2.5rem; margin-bottom: 0.5rem; color: var(--text-main); }
+p { color: var(--text-sub); margin-top: 0; }
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.card {
+    background-color: var(--card-bg);
+    padding: 2rem;
+    border-radius: 8px;
+    text-decoration: none;
+    color: var(--text-main);
+    transition: all 0.2s ease;
+    border: 2px solid transparent;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    background-color: var(--hover-bg);
+    border-color: var(--accent);
+}
+
+.icon {
+    font-size: 2rem;
+    color: var(--accent);
+    margin-bottom: 1rem;
+}
+.github .icon { color: #fff; }
+
+.card h3 { margin: 0; font-size: 1.2rem; font-weight: 600; }
+.card p { font-size: 0.85rem; color: var(--text-sub); margin-top: 0.5rem; }
+
+.api-section {
+    margin-top: 6rem;
+    margin-bottom: 4rem;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    position: relative; 
+    z-index: 10;
+}
+
+.fact-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 150px;
+}
+
+.fact-label {
+    font-family: "Roboto Mono", monospace !important; 
+    font-size: 0.9rem !important;
+    color: var(--accent) !important;
+    margin-bottom: 1rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    opacity: 0.8;
+}
+
+.fact-text {
+    font-family: "Roboto Mono", monospace !important;
+    font-size: 1.6rem !important;
+    color: var(--text-main) !important;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    max-width: 90%;
+}
+
+.refresh-btn {
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    color: var(--text-sub);
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 50%;
+    transition: all 0.2s;
+    outline: none !important;
+}
+
+.refresh-btn:hover {
+    color: var(--text-main);
+    background-color: rgba(255,255,255,0.1) !important;
+    transform: rotate(90deg);
+}
+
+.api-disclaimer {
+    font-family: "Roboto Mono", monospace;
+    font-size: 0.75rem;
+    color: var(--text-sub);
+    margin-top: 1rem;
+    font-style: italic;
+    opacity: 0.6;
+}
+
+.tech-stack {
+    margin-top: 5rem;
+    opacity: 0.6;
+}
+.stack-icons {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    font-size: 1.5rem;
+    color: var(--text-sub);
+}
+.stack-icons i:hover { color: var(--accent); transform: scale(1.1); }
+
+footer {
+    margin-top: 3rem;
+    color: var(--text-sub);
+    font-size: 0.75rem;
+    font-family: monospace;
+}

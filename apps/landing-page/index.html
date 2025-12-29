@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Josh's Homelab</title>
+    <link rel="stylesheet" href="style.css?v=2">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 id="greeting">Welcome</h1>
+            <p>Welcome to My Homelab & Kubernetes Control Plane</p>
+        </header>
+
+        <div class="grid">
+            <a href="https://grafana.joshdarcy.xyz" class="card">
+                <div class="icon"><i class="fas fa-chart-bar"></i></div>
+                <h3>Grafana</h3>
+                <p>Observability</p>
+            </a>
+            <a href="https://argo.joshdarcy.xyz" class="card">
+                <div class="icon"><i class="fas fa-rocket"></i></div>
+                <h3>ArgoCD</h3>
+                <p>GitOps</p>
+            </a>
+            <a href="https://influxdb.joshdarcy.xyz" class="card">
+                <div class="icon"><i class="fas fa-database"></i></div>
+                <h3>InfluxDB</h3>
+                <p>Time-Series Database</p>
+            </a>
+             <a href="https://github.com/joshdarcy/homelab" class="card github">
+                <div class="icon"><i class="fab fa-github"></i></div>
+                <h3>GitHub</h3>
+                <p>Learn More Here!</p>
+            </a>
+        </div>
+
+        <div class="api-section">
+            <div id="fact-display" class="fact-container">
+                <span class="fact-label">system status</span>
+                <p id="current-fact" class="fact-text">Waiting for metrics...</p>
+                <button onclick="showRandomFact()" class="refresh-btn" title="Refresh">
+                    <i class="fas fa-redo-alt"></i>
+                </button>
+	        <p class="api-disclaimer">Live fetched via FastAPI from PostgreSQL...</p>
+            </div>
+        </div>
+
+        <div class="tech-stack">
+            <div class="stack-icons">
+                <i class="fab fa-docker"></i>
+                <i class="fas fa-dharmachakra"></i>
+                <i class="fab fa-linux"></i>
+                <i class="fas fa-server"></i>
+                <i class="fab fa-cloudflare"></i>
+            </div>
+        </div>
+
+        <footer>
+            <p>build: <span id="git-hash">LOCAL-DEV</span></p>
+        </footer>
+    </div>
+
+    <script>
+        const API_URL = "https://api.joshdarcy.xyz/items";
+        let cachedData = [];
+
+        async function initData() {
+            const textBox = document.getElementById('current-fact');
+            try {
+                const response = await fetch(API_URL);
+                if (!response.ok) throw new Error("API Error");
+                cachedData = await response.json();
+                
+                if (cachedData.length === 0) {
+                    textBox.innerText = "System Normal (No Data)";
+                    return;
+                }
+                showRandomFact();
+            } catch (error) {
+                textBox.innerText = "Status: API Offline";
+                textBox.style.color = "#e2b714";
+            }
+        }
+
+        function showRandomFact() {
+            if (cachedData.length === 0) return;
+            const label = document.querySelector('.fact-label');
+            const textBox = document.getElementById('current-fact');
+            
+            const item = cachedData[Math.floor(Math.random() * cachedData.length)];
+
+            textBox.style.opacity = 0;
+            setTimeout(() => {
+                label.innerText = `> ${item.title}`;
+                textBox.innerText = item.description;
+                textBox.style.opacity = 1;
+            }, 200);
+        }
+
+        const hour = new Date().getHours();
+        const greetingElement = document.getElementById('greeting');
+        if (hour < 12) greetingElement.innerText = "Good Morning";
+        else if (hour < 18) greetingElement.innerText = "Good Afternoon";
+        else greetingElement.innerText = "Good Evening";
+
+        initData();
+    </script>
+</body>
+</html>
