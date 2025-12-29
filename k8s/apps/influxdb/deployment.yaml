@@ -13,6 +13,8 @@ spec:
       labels:
         app: influxdb
     spec:
+      nodeSelector:
+        kubernetes.io/hostname: jd-dev-worker1
       containers:
       - name: influxdb
         image: influxdb:latest
