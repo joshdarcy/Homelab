@@ -17,14 +17,27 @@ config:
 extraPorts:
   - name: syslog
     containerPort: 1514
-    protocol: TCP
+    protocol: "TCP"
 
 service:
   enabled: true
-  type: NodePort
-  ports:
-    - name: syslog
-      port: 514
-      targetPort: 1514
-      nodePort: 30814
-      protocol: TCP
+  type: ClusterIP
+
+extraObjects:
+  - |
+    apiVersion: v1
+    kind: Service
+    metadata:
+      name: promtail-syslog
+      namespace: monitoring
+    spec:
+      type: NodePort
+      selector:
+        app.kubernetes.io/name: promtail
+        app.kubernetes.io/instance: promtail
+      ports:
+        - name: syslog
+          port: 514
+          targetPort: 1514
+          nodePort: 30514
+          protocol: TCP
