@@ -34,4 +34,4 @@ extraObjects:
           port: 514
           targetPort: 1514
           nodePort: 30514
-          protocol: TCP
+          protocol: UDP
