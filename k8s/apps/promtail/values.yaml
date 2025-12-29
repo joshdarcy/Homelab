@@ -16,28 +16,21 @@ config:
             target_label: host
         pipeline_stages:
           - timestamp:
-              source: force_fail
+              source: this_field_does_not_exist
               format: RFC3339
               action_on_failure: fudge
 
-service:
-  enabled: true
-  type: ClusterIP
+extraPorts:
+  - name: syslog
+    containerPort: 1514
+    protocol: UDP
+    hostPort: 30514
 
-extraObjects:
-  - apiVersion: v1
-    kind: Service
-    metadata:
-      name: promtail-syslog
-      namespace: monitoring
-    spec:
-      type: NodePort
-      selector:
-        app.kubernetes.io/name: promtail
-        app.kubernetes.io/instance: promtail
-      ports:
-        - name: syslog
-          port: 514
-          targetPort: 1514
-          nodePort: 30514
-          protocol: UDP
+extraEnv:
+  - name: TZ
+    value: "Australia/Brisbane"
+
+service:
+  enabled: false
+
+extraObjects: []
