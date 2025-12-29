@@ -1,0 +1,241 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  creationTimestamp: "2025-12-26T20:32:18Z"
+  generation: 1360
+  name: landing-page
+  namespace: argocd
+  resourceVersion: "1371190"
+  uid: 549d5c97-a558-41da-9223-5b80ba1e3988
+spec:
+  destination:
+    namespace: web
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: k8s/apps/landing-page/
+    repoURL: https://github.com/joshdarcy/Homelab
+    targetRevision: HEAD
+  syncPolicy:
+    automated:
+      enabled: true
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
+    - Replace=true
+status:
+  controllerNamespace: argocd
+  health:
+    lastTransitionTime: "2025-12-29T10:00:10Z"
+    status: Healthy
+  history:
+  - deployStartedAt: "2025-12-28T15:12:39Z"
+    deployedAt: "2025-12-28T15:12:40Z"
+    id: 6
+    initiatedBy:
+      automated: true
+    revision: 0d7511dd949cd7dffd5e003f8e778b0498a3049e
+    source:
+      path: k8s/apps/landing-page/
+      repoURL: https://github.com/joshdarcy/Homelab
+      targetRevision: HEAD
+  - deployStartedAt: "2025-12-29T07:53:02Z"
+    deployedAt: "2025-12-29T07:53:03Z"
+    id: 7
+    initiatedBy:
+      automated: true
+    revision: e7fa81b66edae95e276e33a65569fa53292dae34
+    source:
+      path: k8s/apps/landing-page/
+      repoURL: https://github.com/joshdarcy/Homelab
+      targetRevision: HEAD
+  - deployStartedAt: "2025-12-29T07:55:37Z"
+    deployedAt: "2025-12-29T07:55:37Z"
+    id: 8
+    initiatedBy:
+      automated: true
+    revision: 7c8be5f27cc02a1cd3aaf2571f45649cfb2dc9da
+    source:
+      path: k8s/apps/landing-page/
+      repoURL: https://github.com/joshdarcy/Homelab
+      targetRevision: HEAD
+  - deployStartedAt: "2025-12-29T08:07:37Z"
+    deployedAt: "2025-12-29T08:07:38Z"
+    id: 9
+    initiatedBy:
+      automated: true
+    revision: 1246f02d44e735a61c2f807df95c8dbda7085ca3
+    source:
+      path: k8s/apps/landing-page/
+      repoURL: https://github.com/joshdarcy/Homelab
+      targetRevision: HEAD
+  - deployStartedAt: "2025-12-29T08:15:51Z"
+    deployedAt: "2025-12-29T08:15:51Z"
+    id: 10
+    initiatedBy:
+      automated: true
+    revision: be2558d1229b559fd5754c2de7ac83165a69ebfc
+    source:
+      path: k8s/apps/landing-page/
+      repoURL: https://github.com/joshdarcy/Homelab
+      targetRevision: HEAD
+  - deployStartedAt: "2025-12-29T08:23:18Z"
+    deployedAt: "2025-12-29T08:23:19Z"
+    id: 11
+    initiatedBy:
+      automated: true
+    revision: d27061b4eb92d3c3276c04759f1356420eaa8ff0
+    source:
+      path: k8s/apps/landing-page/
+      repoURL: https://github.com/joshdarcy/Homelab
+      targetRevision: HEAD
+  - deployStartedAt: "2025-12-29T08:31:44Z"
+    deployedAt: "2025-12-29T08:31:44Z"
+    id: 12
+    initiatedBy:
+      automated: true
+    revision: bf8c19d76eeeb2c7601c55e4d0b5c57a6602f064
+    source:
+      path: k8s/apps/landing-page/
+      repoURL: https://github.com/joshdarcy/Homelab
+      targetRevision: HEAD
+  - deployStartedAt: "2025-12-29T08:37:15Z"
+    deployedAt: "2025-12-29T08:37:15Z"
+    id: 13
+    initiatedBy:
+      automated: true
+    revision: 6056989b7d6a3e663faf1ac71dafb54662e656a0
+    source:
+      path: k8s/apps/landing-page/
+      repoURL: https://github.com/joshdarcy/Homelab
+      targetRevision: HEAD
+  - deployStartedAt: "2025-12-29T08:46:25Z"
+    deployedAt: "2025-12-29T08:46:25Z"
+    id: 14
+    initiatedBy:
+      automated: true
+    revision: 6fb537d05ff046f84e5e5df937474f48e0f1e26a
+    source:
+      path: k8s/apps/landing-page/
+      repoURL: https://github.com/joshdarcy/Homelab
+      targetRevision: HEAD
+  - deployStartedAt: "2025-12-29T09:59:56Z"
+    deployedAt: "2025-12-29T09:59:56Z"
+    id: 15
+    initiatedBy:
+      automated: true
+    revision: e53903aa760283352ee88df5b9b0a0ab9f891e0e
+    source:
+      path: k8s/apps/landing-page/
+      repoURL: https://github.com/joshdarcy/Homelab
+      targetRevision: HEAD
+  operationState:
+    finishedAt: "2025-12-29T09:59:56Z"
+    message: successfully synced (all tasks run)
+    operation:
+      initiatedBy:
+        automated: true
+      retry:
+        limit: 5
+      sync:
+        prune: true
+        revision: e53903aa760283352ee88df5b9b0a0ab9f891e0e
+        source:
+          path: k8s/apps/landing-page/
+          repoURL: https://github.com/joshdarcy/Homelab
+          targetRevision: HEAD
+        syncOptions:
+        - CreateNamespace=true
+        - Replace=true
+    phase: Succeeded
+    startedAt: "2025-12-29T09:59:56Z"
+    syncResult:
+      resources:
+      - group: ""
+        hookPhase: Running
+        kind: Service
+        message: service/landing-page replaced
+        name: landing-page
+        namespace: web
+        status: Synced
+        syncPhase: Sync
+        version: v1
+      - group: apps
+        hookPhase: Running
+        images:
+        - joshdarcy/homelab-landing:v12
+        kind: Deployment
+        message: deployment.apps/landing-page replaced
+        name: landing-page
+        namespace: web
+        status: Synced
+        syncPhase: Sync
+        version: v1
+      - group: networking.k8s.io
+        hookPhase: Running
+        kind: Ingress
+        message: ingress.networking.k8s.io/landing-page-ingress replaced
+        name: landing-page-ingress
+        namespace: web
+        status: Synced
+        syncPhase: Sync
+        version: v1
+      - group: monitoring.coreos.com
+        hookPhase: Running
+        kind: Probe
+        message: probe.monitoring.coreos.com/landing-page-uptime replaced
+        name: landing-page-uptime
+        namespace: monitoring
+        status: Synced
+        syncPhase: Sync
+        version: v1
+      revision: e53903aa760283352ee88df5b9b0a0ab9f891e0e
+      source:
+        path: k8s/apps/landing-page/
+        repoURL: https://github.com/joshdarcy/Homelab
+        targetRevision: HEAD
+  reconciledAt: "2025-12-29T21:04:21Z"
+  resourceHealthSource: appTree
+  resources:
+  - kind: Service
+    name: landing-page
+    namespace: web
+    status: Synced
+    version: v1
+  - group: apps
+    kind: Deployment
+    name: landing-page
+    namespace: web
+    status: Synced
+    version: v1
+  - group: monitoring.coreos.com
+    kind: Probe
+    name: landing-page-uptime
+    namespace: monitoring
+    status: Synced
+    version: v1
+  - group: networking.k8s.io
+    kind: Ingress
+    name: landing-page-ingress
+    namespace: web
+    status: Synced
+    version: v1
+  sourceHydrator: {}
+  sourceType: Directory
+  summary:
+    externalURLs:
+    - https://joshdarcy.xyz/
+    images:
+    - joshdarcy/homelab-landing:v12
+  sync:
+    comparedTo:
+      destination:
+        namespace: web
+        server: https://kubernetes.default.svc
+      source:
+        path: k8s/apps/landing-page/
+        repoURL: https://github.com/joshdarcy/Homelab
+        targetRevision: HEAD
+    revision: 5a3a4182d58eae7e67627d0452df90dac43d14b4
+    status: Synced

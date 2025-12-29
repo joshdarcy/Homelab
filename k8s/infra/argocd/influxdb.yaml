@@ -1,0 +1,191 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  creationTimestamp: "2025-12-26T02:49:57Z"
+  generation: 1661
+  name: influxdb
+  namespace: argocd
+  resourceVersion: "1371081"
+  uid: 82055981-ea3c-470f-a205-8d465abe1a8e
+spec:
+  destination:
+    namespace: monitoring
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: k8s/apps/influxdb/
+    repoURL: https://github.com/joshdarcy/Homelab
+    targetRevision: HEAD
+  syncPolicy:
+    automated:
+      enabled: true
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
+status:
+  controllerNamespace: argocd
+  health:
+    lastTransitionTime: "2025-12-29T07:04:35Z"
+    status: Healthy
+  history:
+  - deployStartedAt: "2025-12-26T13:24:54Z"
+    deployedAt: "2025-12-26T13:24:54Z"
+    id: 0
+    initiatedBy:
+      automated: true
+    revision: ef20069798e1affccd2c207df14e1a458405faac
+    source:
+      path: k8s/apps/influxdb/
+      repoURL: https://github.com/joshdarcy/Homelab
+      targetRevision: HEAD
+  - deployStartedAt: "2025-12-26T13:59:55Z"
+    deployedAt: "2025-12-26T13:59:56Z"
+    id: 1
+    initiatedBy:
+      automated: true
+    revision: 1bf2cef1780956d03a1e36f8ef46115190b1e0cc
+    source:
+      path: k8s/apps/influxdb/
+      repoURL: https://github.com/joshdarcy/Homelab
+      targetRevision: HEAD
+  - deployStartedAt: "2025-12-26T14:00:03Z"
+    deployedAt: "2025-12-26T14:00:03Z"
+    id: 2
+    initiatedBy:
+      username: admin
+    revision: 1bf2cef1780956d03a1e36f8ef46115190b1e0cc
+    source:
+      path: k8s/apps/influxdb/
+      repoURL: https://github.com/joshdarcy/Homelab
+      targetRevision: HEAD
+  - deployStartedAt: "2025-12-26T14:02:04Z"
+    deployedAt: "2025-12-26T14:02:05Z"
+    id: 3
+    initiatedBy:
+      automated: true
+    revision: a2fcf501f3e3319ab9ffb6ed2c576582d48ede05
+    source:
+      path: k8s/apps/influxdb/
+      repoURL: https://github.com/joshdarcy/Homelab
+      targetRevision: HEAD
+  - deployStartedAt: "2025-12-26T14:33:12Z"
+    deployedAt: "2025-12-26T14:33:13Z"
+    id: 4
+    initiatedBy:
+      automated: true
+    revision: 8d137d396c6d02aedee6b49d1a01c570f1cc0b2b
+    source:
+      path: k8s/apps/influxdb/
+      repoURL: https://github.com/joshdarcy/Homelab
+      targetRevision: HEAD
+  - deployStartedAt: "2025-12-29T07:02:44Z"
+    deployedAt: "2025-12-29T07:02:46Z"
+    id: 5
+    initiatedBy:
+      automated: true
+    revision: 1b4970473c744a3e2c71aa5be38e0fca53f709b2
+    source:
+      path: k8s/apps/influxdb/
+      repoURL: https://github.com/joshdarcy/Homelab
+      targetRevision: HEAD
+  - deployStartedAt: "2025-12-29T07:04:29Z"
+    deployedAt: "2025-12-29T07:04:31Z"
+    id: 6
+    initiatedBy:
+      automated: true
+    revision: 3ed685f0c68be9f7150278f7ec81838d2a50cf95
+    source:
+      path: k8s/apps/influxdb/
+      repoURL: https://github.com/joshdarcy/Homelab
+      targetRevision: HEAD
+  operationState:
+    finishedAt: "2025-12-29T07:04:31Z"
+    message: successfully synced (all tasks run)
+    operation:
+      initiatedBy:
+        automated: true
+      retry:
+        limit: 5
+      sync:
+        prune: true
+        revision: 3ed685f0c68be9f7150278f7ec81838d2a50cf95
+        source:
+          path: k8s/apps/influxdb/
+          repoURL: https://github.com/joshdarcy/Homelab
+          targetRevision: HEAD
+        syncOptions:
+        - CreateNamespace=true
+    phase: Succeeded
+    startedAt: "2025-12-29T07:04:29Z"
+    syncResult:
+      resources:
+      - group: ""
+        hookPhase: Running
+        kind: PersistentVolumeClaim
+        message: persistentvolumeclaim/influxdb-pvc unchanged
+        name: influxdb-pvc
+        namespace: monitoring
+        status: Synced
+        syncPhase: Sync
+        version: v1
+      - group: ""
+        hookPhase: Running
+        kind: Service
+        message: service/influxdb unchanged
+        name: influxdb
+        namespace: monitoring
+        status: Synced
+        syncPhase: Sync
+        version: v1
+      - group: apps
+        hookPhase: Running
+        images:
+        - influxdb:latest
+        kind: Deployment
+        message: deployment.apps/influxdb configured
+        name: influxdb
+        namespace: monitoring
+        status: Synced
+        syncPhase: Sync
+        version: v1
+      revision: 3ed685f0c68be9f7150278f7ec81838d2a50cf95
+      source:
+        path: k8s/apps/influxdb/
+        repoURL: https://github.com/joshdarcy/Homelab
+        targetRevision: HEAD
+  reconciledAt: "2025-12-29T21:03:55Z"
+  resourceHealthSource: appTree
+  resources:
+  - kind: PersistentVolumeClaim
+    name: influxdb-pvc
+    namespace: monitoring
+    status: Synced
+    version: v1
+  - kind: Service
+    name: influxdb
+    namespace: monitoring
+    status: Synced
+    version: v1
+  - group: apps
+    kind: Deployment
+    name: influxdb
+    namespace: monitoring
+    status: Synced
+    version: v1
+  sourceHydrator: {}
+  sourceType: Directory
+  summary:
+    images:
+    - influxdb:latest
+  sync:
+    comparedTo:
+      destination:
+        namespace: monitoring
+        server: https://kubernetes.default.svc
+      source:
+        path: k8s/apps/influxdb/
+        repoURL: https://github.com/joshdarcy/Homelab
+        targetRevision: HEAD
+    revision: 5a3a4182d58eae7e67627d0452df90dac43d14b4
+    status: Synced

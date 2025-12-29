@@ -1,0 +1,190 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"argoproj.io/v1alpha1","kind":"Application","metadata":{"annotations":{},"name":"blackbox-exporter","namespace":"argocd"},"spec":{"destination":{"namespace":"monitoring","server":"https://kubernetes.default.svc"},"project":"default","sources":[{"chart":"prometheus-blackbox-exporter","helm":{"valueFiles":["$values/k8s/apps/blackbox/values.yaml"]},"repoURL":"https://prometheus-community.github.io/helm-charts","targetRevision":"8.17.0"},{"ref":"values","repoURL":"https://github.com/joshdarcy/Homelab.git","targetRevision":"HEAD"}],"syncPolicy":{"automated":{"prune":true,"selfHeal":true}}}}
+  creationTimestamp: "2025-12-28T02:35:31Z"
+  generation: 623
+  name: blackbox-exporter
+  namespace: argocd
+  resourceVersion: "1371071"
+  uid: 7234b2b9-6d08-44b0-881e-2ba3163ed08a
+spec:
+  destination:
+    namespace: monitoring
+    server: https://kubernetes.default.svc
+  project: default
+  sources:
+  - chart: prometheus-blackbox-exporter
+    helm:
+      valueFiles:
+      - $values/k8s/apps/blackbox/values.yaml
+    repoURL: https://prometheus-community.github.io/helm-charts
+    targetRevision: 8.17.0
+  - ref: values
+    repoURL: https://github.com/joshdarcy/Homelab.git
+    targetRevision: HEAD
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+status:
+  controllerNamespace: argocd
+  health:
+    lastTransitionTime: "2025-12-29T10:44:17Z"
+    status: Healthy
+  history:
+  - deployStartedAt: "2025-12-28T13:10:32Z"
+    deployedAt: "2025-12-28T13:10:34Z"
+    id: 0
+    initiatedBy:
+      automated: true
+    revisions:
+    - 8.17.0
+    - 67406b859795c4ae59f427bc47699d3fee5e410d
+    source:
+      repoURL: ""
+    sources:
+    - chart: prometheus-blackbox-exporter
+      helm:
+        valueFiles:
+        - $values/k8s/apps/blackbox/values.yaml
+      repoURL: https://prometheus-community.github.io/helm-charts
+      targetRevision: 8.17.0
+    - ref: values
+      repoURL: https://github.com/joshdarcy/Homelab.git
+      targetRevision: HEAD
+  operationState:
+    finishedAt: "2025-12-28T13:10:34Z"
+    message: successfully synced (all tasks run)
+    operation:
+      initiatedBy:
+        automated: true
+      retry:
+        limit: 5
+      sync:
+        prune: true
+        revisions:
+        - 8.17.0
+        - 67406b859795c4ae59f427bc47699d3fee5e410d
+        sources:
+        - chart: prometheus-blackbox-exporter
+          helm:
+            valueFiles:
+            - $values/k8s/apps/blackbox/values.yaml
+          repoURL: https://prometheus-community.github.io/helm-charts
+          targetRevision: 8.17.0
+        - ref: values
+          repoURL: https://github.com/joshdarcy/Homelab.git
+          targetRevision: HEAD
+    phase: Succeeded
+    startedAt: "2025-12-28T13:10:32Z"
+    syncResult:
+      resources:
+      - group: ""
+        hookPhase: Running
+        kind: ServiceAccount
+        message: serviceaccount/blackbox-exporter-prometheus-blackbox-exporter created
+        name: blackbox-exporter-prometheus-blackbox-exporter
+        namespace: monitoring
+        status: Synced
+        syncPhase: Sync
+        version: v1
+      - group: ""
+        hookPhase: Running
+        kind: ConfigMap
+        message: configmap/blackbox-exporter-prometheus-blackbox-exporter created
+        name: blackbox-exporter-prometheus-blackbox-exporter
+        namespace: monitoring
+        status: Synced
+        syncPhase: Sync
+        version: v1
+      - group: ""
+        hookPhase: Running
+        kind: Service
+        message: service/blackbox-exporter-prometheus-blackbox-exporter created
+        name: blackbox-exporter-prometheus-blackbox-exporter
+        namespace: monitoring
+        status: Synced
+        syncPhase: Sync
+        version: v1
+      - group: apps
+        hookPhase: Running
+        images:
+        - quay.io/prometheus/blackbox-exporter:v0.25.0
+        kind: Deployment
+        message: deployment.apps/blackbox-exporter-prometheus-blackbox-exporter created
+        name: blackbox-exporter-prometheus-blackbox-exporter
+        namespace: monitoring
+        status: Synced
+        syncPhase: Sync
+        version: v1
+      revision: ""
+      revisions:
+      - 8.17.0
+      - 67406b859795c4ae59f427bc47699d3fee5e410d
+      source:
+        repoURL: ""
+      sources:
+      - chart: prometheus-blackbox-exporter
+        helm:
+          valueFiles:
+          - $values/k8s/apps/blackbox/values.yaml
+        repoURL: https://prometheus-community.github.io/helm-charts
+        targetRevision: 8.17.0
+      - ref: values
+        repoURL: https://github.com/joshdarcy/Homelab.git
+        targetRevision: HEAD
+  reconciledAt: "2025-12-29T21:03:52Z"
+  resourceHealthSource: appTree
+  resources:
+  - kind: ConfigMap
+    name: blackbox-exporter-prometheus-blackbox-exporter
+    namespace: monitoring
+    status: Synced
+    version: v1
+  - kind: Service
+    name: blackbox-exporter-prometheus-blackbox-exporter
+    namespace: monitoring
+    status: Synced
+    version: v1
+  - kind: ServiceAccount
+    name: blackbox-exporter-prometheus-blackbox-exporter
+    namespace: monitoring
+    status: Synced
+    version: v1
+  - group: apps
+    kind: Deployment
+    name: blackbox-exporter-prometheus-blackbox-exporter
+    namespace: monitoring
+    status: Synced
+    version: v1
+  sourceHydrator: {}
+  sourceTypes:
+  - Helm
+  - ""
+  summary:
+    images:
+    - quay.io/prometheus/blackbox-exporter:v0.25.0
+  sync:
+    comparedTo:
+      destination:
+        namespace: monitoring
+        server: https://kubernetes.default.svc
+      source:
+        repoURL: ""
+      sources:
+      - chart: prometheus-blackbox-exporter
+        helm:
+          valueFiles:
+          - $values/k8s/apps/blackbox/values.yaml
+        repoURL: https://prometheus-community.github.io/helm-charts
+        targetRevision: 8.17.0
+      - ref: values
+        repoURL: https://github.com/joshdarcy/Homelab.git
+        targetRevision: HEAD
+    revisions:
+    - 8.17.0
+    - 5a3a4182d58eae7e67627d0452df90dac43d14b4
+    status: Synced

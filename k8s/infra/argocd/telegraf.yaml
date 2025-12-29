@@ -1,0 +1,207 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  creationTimestamp: "2025-12-26T06:30:20Z"
+  generation: 1571
+  name: telegraf
+  namespace: argocd
+  resourceVersion: "1371664"
+  uid: ee19fee6-e9da-4279-8e3d-97f25585f50c
+spec:
+  destination:
+    namespace: monitoring
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: k8s/apps/telegraf
+    repoURL: https://github.com/joshdarcy/Homelab
+    targetRevision: HEAD
+  syncPolicy:
+    automated:
+      enabled: true
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - PruneLast=true
+status:
+  controllerNamespace: argocd
+  health:
+    lastTransitionTime: "2025-12-29T10:13:18Z"
+    status: Healthy
+  history:
+  - deployStartedAt: "2025-12-26T17:14:39Z"
+    deployedAt: "2025-12-26T17:14:40Z"
+    id: 1
+    initiatedBy:
+      automated: true
+    revision: 8d4bb6d701327c726780a79fd73008b4f0c00be7
+    source:
+      path: k8s/apps/telegraf
+      repoURL: https://github.com/joshdarcy/Homelab
+      targetRevision: HEAD
+  - deployStartedAt: "2025-12-26T17:14:42Z"
+    deployedAt: "2025-12-26T17:14:42Z"
+    id: 2
+    initiatedBy:
+      username: admin
+    revision: 8d4bb6d701327c726780a79fd73008b4f0c00be7
+    source:
+      path: k8s/apps/telegraf
+      repoURL: https://github.com/joshdarcy/Homelab
+      targetRevision: HEAD
+  - deployStartedAt: "2025-12-26T17:16:50Z"
+    deployedAt: "2025-12-26T17:16:52Z"
+    id: 3
+    initiatedBy:
+      automated: true
+    revision: c298a99141e802f745bee74d7ebaf504718046e3
+    source:
+      path: k8s/apps/telegraf
+      repoURL: https://github.com/joshdarcy/Homelab
+      targetRevision: HEAD
+  - deployStartedAt: "2025-12-26T17:16:53Z"
+    deployedAt: "2025-12-26T17:16:55Z"
+    id: 4
+    initiatedBy:
+      username: admin
+    revision: c298a99141e802f745bee74d7ebaf504718046e3
+    source:
+      path: k8s/apps/telegraf
+      repoURL: https://github.com/joshdarcy/Homelab
+      targetRevision: HEAD
+  - deployStartedAt: "2025-12-26T17:26:29Z"
+    deployedAt: "2025-12-26T17:26:30Z"
+    id: 5
+    initiatedBy:
+      username: admin
+    revision: c298a99141e802f745bee74d7ebaf504718046e3
+    source:
+      path: k8s/apps/telegraf
+      repoURL: https://github.com/joshdarcy/Homelab
+      targetRevision: HEAD
+  - deployStartedAt: "2025-12-26T17:38:32Z"
+    deployedAt: "2025-12-26T17:38:33Z"
+    id: 6
+    initiatedBy:
+      automated: true
+    revision: 93b5d778105eb082d2ff3e9e747a205868ef10d3
+    source:
+      path: k8s/apps/telegraf
+      repoURL: https://github.com/joshdarcy/Homelab
+      targetRevision: HEAD
+  - deployStartedAt: "2025-12-26T20:51:59Z"
+    deployedAt: "2025-12-26T20:52:00Z"
+    id: 7
+    initiatedBy:
+      automated: true
+    revision: e5d7ee54cc081a3b61af3053790e2e7556030144
+    source:
+      path: k8s/apps/telegraf
+      repoURL: https://github.com/joshdarcy/Homelab
+      targetRevision: HEAD
+  - deployStartedAt: "2025-12-26T20:52:01Z"
+    deployedAt: "2025-12-26T20:52:02Z"
+    id: 8
+    initiatedBy:
+      username: admin
+    revision: e5d7ee54cc081a3b61af3053790e2e7556030144
+    source:
+      path: k8s/apps/telegraf
+      repoURL: https://github.com/joshdarcy/Homelab
+      targetRevision: HEAD
+  - deployStartedAt: "2025-12-26T20:59:47Z"
+    deployedAt: "2025-12-26T20:59:48Z"
+    id: 9
+    initiatedBy:
+      automated: true
+    revision: 6470c4ab1d31aa3f702c2bacf6d997d4e01ed10c
+    source:
+      path: k8s/apps/telegraf
+      repoURL: https://github.com/joshdarcy/Homelab
+      targetRevision: HEAD
+  - deployStartedAt: "2025-12-26T20:59:50Z"
+    deployedAt: "2025-12-26T20:59:50Z"
+    id: 10
+    initiatedBy:
+      username: admin
+    revision: 6470c4ab1d31aa3f702c2bacf6d997d4e01ed10c
+    source:
+      path: k8s/apps/telegraf
+      repoURL: https://github.com/joshdarcy/Homelab
+      targetRevision: HEAD
+  operationState:
+    finishedAt: "2025-12-26T20:59:51Z"
+    message: successfully synced (all tasks run)
+    operation:
+      initiatedBy:
+        username: admin
+      retry: {}
+      sync:
+        revision: 6470c4ab1d31aa3f702c2bacf6d997d4e01ed10c
+        source:
+          path: k8s/apps/telegraf
+          repoURL: https://github.com/joshdarcy/Homelab
+          targetRevision: HEAD
+        syncOptions:
+        - PruneLast=true
+        syncStrategy:
+          hook: {}
+    phase: Succeeded
+    startedAt: "2025-12-26T20:59:50Z"
+    syncResult:
+      resources:
+      - group: ""
+        hookPhase: Running
+        kind: ConfigMap
+        message: configmap/telegraf-config unchanged
+        name: telegraf-config
+        namespace: monitoring
+        status: Synced
+        syncPhase: Sync
+        version: v1
+      - group: apps
+        hookPhase: Running
+        images:
+        - telegraf:latest
+        kind: Deployment
+        message: deployment.apps/telegraf unchanged
+        name: telegraf
+        namespace: monitoring
+        status: Synced
+        syncPhase: Sync
+        version: v1
+      revision: 6470c4ab1d31aa3f702c2bacf6d997d4e01ed10c
+      source:
+        path: k8s/apps/telegraf
+        repoURL: https://github.com/joshdarcy/Homelab
+        targetRevision: HEAD
+  reconciledAt: "2025-12-29T21:06:18Z"
+  resourceHealthSource: appTree
+  resources:
+  - kind: ConfigMap
+    name: telegraf-config
+    namespace: monitoring
+    status: Synced
+    version: v1
+  - group: apps
+    kind: Deployment
+    name: telegraf
+    namespace: monitoring
+    status: Synced
+    version: v1
+  sourceHydrator: {}
+  sourceType: Directory
+  summary:
+    images:
+    - telegraf:latest
+  sync:
+    comparedTo:
+      destination:
+        namespace: monitoring
+        server: https://kubernetes.default.svc
+      source:
+        path: k8s/apps/telegraf
+        repoURL: https://github.com/joshdarcy/Homelab
+        targetRevision: HEAD
+    revision: 5a3a4182d58eae7e67627d0452df90dac43d14b4
+    status: Synced

@@ -1,0 +1,161 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  creationTimestamp: "2025-12-26T03:17:20Z"
+  generation: 1696
+  name: grafana
+  namespace: argocd
+  resourceVersion: "1371042"
+  uid: 88f1b9dd-0a55-4e8b-a8e7-7c8f001fdfae
+spec:
+  destination:
+    namespace: monitoring
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: k8s/apps/grafana/
+    repoURL: https://github.com/joshdarcy/Homelab
+    targetRevision: HEAD
+  syncPolicy:
+    automated:
+      enabled: true
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
+status:
+  controllerNamespace: argocd
+  health:
+    lastTransitionTime: "2025-12-29T06:36:45Z"
+    status: Healthy
+  history:
+  - deployStartedAt: "2025-12-26T13:52:17Z"
+    deployedAt: "2025-12-26T13:52:18Z"
+    id: 0
+    initiatedBy:
+      automated: true
+    revision: 81e7b83bea651a0d652dbf497c3a4bf3b198ff60
+    source:
+      path: k8s/apps/grafana/
+      repoURL: https://github.com/joshdarcy/Homelab
+      targetRevision: HEAD
+  - deployStartedAt: "2025-12-27T07:36:42Z"
+    deployedAt: "2025-12-27T07:36:43Z"
+    id: 1
+    initiatedBy:
+      username: admin
+    revision: 27e635b4b34e6b8d3368047571576d6ba2031d46
+    source:
+      path: k8s/apps/grafana/
+      repoURL: https://github.com/joshdarcy/Homelab
+      targetRevision: HEAD
+  - deployStartedAt: "2025-12-27T07:57:08Z"
+    deployedAt: "2025-12-27T07:57:09Z"
+    id: 2
+    initiatedBy:
+      automated: true
+    revision: 1e638647f4d98301604196829741fbfc5e45ce0a
+    source:
+      path: k8s/apps/grafana/
+      repoURL: https://github.com/joshdarcy/Homelab
+      targetRevision: HEAD
+  - deployStartedAt: "2025-12-27T07:59:26Z"
+    deployedAt: "2025-12-27T07:59:27Z"
+    id: 3
+    initiatedBy:
+      automated: true
+    revision: d6a4cdea12bfbd888fb6851d70d6a58ed45f7b08
+    source:
+      path: k8s/apps/grafana/
+      repoURL: https://github.com/joshdarcy/Homelab
+      targetRevision: HEAD
+  operationState:
+    finishedAt: "2025-12-27T07:59:27Z"
+    message: successfully synced (all tasks run)
+    operation:
+      initiatedBy:
+        automated: true
+      retry:
+        limit: 5
+      sync:
+        prune: true
+        revision: d6a4cdea12bfbd888fb6851d70d6a58ed45f7b08
+        source:
+          path: k8s/apps/grafana/
+          repoURL: https://github.com/joshdarcy/Homelab
+          targetRevision: HEAD
+        syncOptions:
+        - CreateNamespace=true
+    phase: Succeeded
+    startedAt: "2025-12-27T07:59:26Z"
+    syncResult:
+      resources:
+      - group: ""
+        hookPhase: Running
+        kind: PersistentVolumeClaim
+        message: persistentvolumeclaim/grafana-pvc configured
+        name: grafana-pvc
+        namespace: monitoring
+        status: Synced
+        syncPhase: Sync
+        version: v1
+      - group: ""
+        hookPhase: Running
+        kind: Service
+        message: service/grafana unchanged
+        name: grafana
+        namespace: monitoring
+        status: Synced
+        syncPhase: Sync
+        version: v1
+      - group: apps
+        hookPhase: Running
+        images:
+        - grafana/grafana:latest
+        kind: Deployment
+        message: deployment.apps/grafana configured
+        name: grafana
+        namespace: monitoring
+        status: Synced
+        syncPhase: Sync
+        version: v1
+      revision: d6a4cdea12bfbd888fb6851d70d6a58ed45f7b08
+      source:
+        path: k8s/apps/grafana/
+        repoURL: https://github.com/joshdarcy/Homelab
+        targetRevision: HEAD
+  reconciledAt: "2025-12-29T21:03:46Z"
+  resourceHealthSource: appTree
+  resources:
+  - kind: PersistentVolumeClaim
+    name: grafana-pvc
+    namespace: monitoring
+    status: Synced
+    version: v1
+  - kind: Service
+    name: grafana
+    namespace: monitoring
+    status: Synced
+    version: v1
+  - group: apps
+    kind: Deployment
+    name: grafana
+    namespace: monitoring
+    status: Synced
+    version: v1
+  sourceHydrator: {}
+  sourceType: Directory
+  summary:
+    images:
+    - grafana/grafana:latest
+  sync:
+    comparedTo:
+      destination:
+        namespace: monitoring
+        server: https://kubernetes.default.svc
+      source:
+        path: k8s/apps/grafana/
+        repoURL: https://github.com/joshdarcy/Homelab
+        targetRevision: HEAD
+    revision: 5a3a4182d58eae7e67627d0452df90dac43d14b4
+    status: Synced
