@@ -1,8 +1,16 @@
 ---
 logLevel: info
 
-hostNetwork: false
-extraPorts: []
+extraEnv:
+  - name: POD_IP
+    valueFrom:
+      fieldRef:
+        fieldPath: status.podIP
+  - name: TZ
+    value: "Australia/Brisbane"
+
+extraArgs:
+  - -config.expand-env=true
 
 config:
   clients:
@@ -12,7 +20,7 @@ config:
     extraScrapeConfigs: |
       - job_name: syslog
         syslog:
-          listen_address: 0.0.0.0:1514
+          listen_address: ${POD_IP}:1514
           listen_protocol: udp
           labels:
             job: syslog
@@ -25,6 +33,8 @@ config:
               format: RFC3339
               action_on_failure: fudge
 
+hostNetwork: false
+extraPorts: []
 service:
   enabled: false
 extraObjects:
