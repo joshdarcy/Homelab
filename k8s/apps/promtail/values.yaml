@@ -9,7 +9,7 @@ config:
     extraScrapeConfigs: |
       - job_name: syslog
         syslog:
-          listen_address: 0.0.0.0:1514
+          listen_address: ${POD_IP}:1514
           listen_protocol: udp
           labels:
             job: syslog
