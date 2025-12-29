@@ -14,7 +14,7 @@ spec:
         app: influxdb
     spec:
       nodeSelector:
-        kubernetes.io/hostname: jd-dev-worker1
+        kubernetes.io/hostname: jd-dev-worker2
       containers:
       - name: influxdb
         image: influxdb:latest
