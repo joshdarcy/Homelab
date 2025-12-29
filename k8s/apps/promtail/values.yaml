@@ -1,5 +1,6 @@
 ---
 hostNetwork: true
+dnsPolicy: ClusterFirstWithHostNet
 
 config:
   clients:
