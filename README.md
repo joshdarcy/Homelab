@@ -67,6 +67,7 @@ graph LR
 
 ### Dashboards
 **Custom-built dashboard to access internal services, deployed via Docker & k8s**
+https://joshdarcy.xyz
 <img width="1815" height="913" alt="image" src="https://github.com/user-attachments/assets/73b7cce9-ac1e-49e9-a2ae-3b89e0cbc2d0" />
 
 ### Observability (Grafana)
