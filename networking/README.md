@@ -1,17 +1,10 @@
 # Networking
 
-Working primarily with pfSense, MicroTik & Ubiquiti, I feel quite confident in the implementation and troubleshooting of these brands.
-I'm currently pursuing my CCNA and am trying to get more exposure to:
-* Cisco IOS
-* OpnSense
-* Virtualized pfSense
+I've completed my CCNA certification and work day-to-day with vendors like Cisco, Aruba, Juniper and MikroTik.
+I'm currently not completing any network-specific projects in my homelab and try to keep it minimally disruptive (for the gfs Plex enjoyment).
 
-## Projects
-### Completed
-* EdgeRouter-4 setup without using any wizards (including DDNS & functioning L2TP VPN)
-* MicroTik hAP ax3 setup (including WiFi Wave 2)
+I've had some interesting network challenges implementing microservices but outside of basic network segregation, I try to keep my homelab network as simple as possible.
 
-### In Progress
-* OpnSense Virtualized on Proxmox Host
-* Container Networking through Docker
-* Network Automation through Ansible
+All external access to my network is managed by the Nginx Ingress Controller and secured with TLS & Cloudflare Proxy. Refer to the main repo README for more details.
+
+I'll update this if I take on any interesting network projects.
