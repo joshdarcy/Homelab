@@ -1,6 +1,5 @@
 ---
-hostNetwork: true
-dnsPolicy: ClusterFirstWithHostNet
+hostNetwork: false
 
 config:
   clients:
@@ -10,7 +9,7 @@ config:
     extraScrapeConfigs: |
       - job_name: syslog
         syslog:
-          listen_address: 0.0.0.0:30514
+          listen_address: 0.0.0.0:1514
           listen_protocol: udp
           labels:
             job: syslog
@@ -23,12 +22,26 @@ config:
               format: RFC3339
               action_on_failure: fudge
 
+extraObjects:
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      name: promtail-syslog
+      namespace: monitoring
+      labels:
+        app.kubernetes.io/name: promtail
+    spec:
+      type: NodePort
+      externalTrafficPolicy: Local
+      selector:
+        app.kubernetes.io/name: promtail
+        app.kubernetes.io/instance: promtail
+      ports:
+        - name: syslog
+          port: 514
+          targetPort: 1514
+          nodePort: 30514
+          protocol: UDP
+
 extraPorts: []
-
-service:
-  enabled: false
-extraObjects: []
-
-extraEnv:
-  - name: TZ
-    value: "Australia/Brisbane"
+extraEnv: []
