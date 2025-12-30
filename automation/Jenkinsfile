@@ -1,0 +1,31 @@
+pipeline {
+    agent any 
+    
+    environment {
+        NET_USER = credentials('network-ro-user')
+        NET_PASS = credentials('network-ro-pass')
+    }
+
+    stages {
+        stage('Pre-Flight Checks') {
+            steps {
+                echo 'Running Python Health Checks...'
+                sh 'python3 pythonnetworkprogramming/network_check.py > health_report.json'
+                archiveArtifacts artifacts: 'health_report.json', fingerprint: true
+            }
+        }
+        
+        stage('Deploy Configuration') {
+            steps {
+                echo 'Running Ansible Compliance Playbook...'
+                sh 'ansible-playbook -i ansible/inventory/inventory.ini ansible/playbooks/compliance.yml'
+            }
+        }
+    }
+    
+    post {
+        failure {
+            echo 'Automation Failed! Notify Network Operations.'
+        }
+    }
+}

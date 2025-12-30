@@ -1,0 +1,45 @@
+---
+- name: Compliance - Set syslog and NTP
+  hosts: network
+  gather_facts: false
+
+  vars:
+    syslog_server: 192.168.49.81
+    ntp_primary: 0.au.pool.ntp.org
+    ntp_secondary: 1.au.pool.ntp.org
+
+  tasks:
+    - name: (Cisco) Configure NTP Servers
+      cisco.ios.ios_ntp:
+        server: "{{ item }}"
+        state: present
+      loop:
+        - "{{ ntp_primary }}"
+        - "{{ ntp_secondary }}"
+      when: ansible_network_os == 'cisco.ios.ios'
+
+    - name: (Cisco) Configure Syslog Destination
+      cisco.ios.ios_logging:
+        dest: host
+        name: "{{ syslog_server }}"
+        state: present
+      when: ansible_network_os == 'cisco.ios.ios'
+
+
+    - name: (MikroTik) Configure NTP Client
+      community.routeros.command:
+        commands:
+          - "/system ntp client set enabled=yes primary-ntp={{ ntp_primary }} secondary-ntp={{ ntp_secondary }}"
+      when: ansible_network_os == 'community.routeros.routeros'
+
+    - name: (MikroTik) Configure Syslog Action
+      community.routeros.command:
+        commands:
+          - "/system logging action add name=remote-syslog target=remote remote={{ syslog_server }}"
+          - "/system logging add topics=info,error,warning action=remote-syslog"
+      failed_when:
+        - result.stdout[0] is defined
+        - "'already exists' not in result.stdout[0]"
+        - result.rc != 0
+      register: result
+      when: ansible_network_os == 'community.routeros.routeros'
